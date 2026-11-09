@@ -1,0 +1,335 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #040506;
+      overflow: hidden;
+      font-family: "Inter", sans-serif;
+    }
+    .s3-shot {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      overflow: hidden;
+    }
+    /* --- the photo */
+    #s3-photo-shot {
+      background: radial-gradient(ellipse 80% 60% at 50% 50%, #1a1712, #050505 75%);
+    }
+    #s3-photo-cam {
+      position: absolute;
+      inset: 0;
+    }
+    #s3-phone {
+      position: absolute;
+      left: 150px;
+      top: 230px;
+      width: 780px;
+      height: 1500px;
+      border-radius: 100px;
+      background: #0d0f12;
+      box-shadow:
+        0 0 0 6px #1b1e23,
+        0 40px 120px rgba(0, 0, 0, 0.9),
+        0 0 220px rgba(230, 150, 90, 0.25);
+    }
+    #s3-screen {
+      position: absolute;
+      inset: 20px;
+      border-radius: 82px;
+      overflow: hidden;
+      background: #000;
+    }
+    #s3-pic {
+      position: absolute;
+      left: 0;
+      top: 250px;
+      width: 740px;
+      height: 960px;
+    }
+    #s3-lina {
+      position: absolute;
+      left: 0;
+      top: 250px;
+      width: 740px;
+      height: 960px;
+    }
+    #s3-pic-meta {
+      position: absolute;
+      left: 40px;
+      top: 1240px;
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 30px;
+    }
+    #s3-scan {
+      position: absolute;
+      left: 0;
+      top: 250px;
+      width: 740px;
+      height: 960px;
+      opacity: 0;
+      background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.12) 0 3px, transparent 3px 9px);
+      mix-blend-mode: screen;
+    }
+    /* --- father in the doorway */
+    #s3-father-shot {
+      background: #07080a;
+    }
+    #s3-father-cam {
+      position: absolute;
+      inset: 0;
+    }
+    #s3-doorlight {
+      position: absolute;
+      left: 250px;
+      top: 300px;
+      width: 580px;
+      height: 1300px;
+      background: linear-gradient(180deg, #d9c6a8, #8c7558);
+      box-shadow: 0 0 240px 60px rgba(200, 170, 120, 0.35);
+    }
+    #s3-father {
+      position: absolute;
+      left: 210px;
+      top: 470px;
+      width: 660px;
+      height: 1150px;
+    }
+    #s3-glint {
+      position: absolute;
+      left: 560px;
+      top: 700px;
+      width: 46px;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255, 245, 220, 0.9);
+      box-shadow: 0 0 18px 4px rgba(255, 240, 210, 0.6);
+      opacity: 0;
+    }
+    #s3-floor {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 1600px;
+      bottom: 0;
+      background: linear-gradient(180deg, #2b241c, #070605);
+    }
+    /* --- silence: phone face down */
+    #s3-still {
+      background: radial-gradient(ellipse 70% 40% at 50% 55%, #15130f, #030303 75%);
+    }
+    #s3-still-cam {
+      position: absolute;
+      inset: 0;
+    }
+    #s3-facedown {
+      position: absolute;
+      left: 290px;
+      top: 620px;
+      width: 500px;
+      height: 960px;
+      border-radius: 70px;
+      background: linear-gradient(135deg, #22252a, #101215);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+    }
+    #s3-halo {
+      position: absolute;
+      left: 250px;
+      top: 580px;
+      width: 580px;
+      height: 1040px;
+      border-radius: 100px;
+      box-shadow: 0 0 120px 40px rgba(150, 190, 255, 0.55);
+      opacity: 0;
+    }
+    #s3-lens {
+      position: absolute;
+      left: 360px;
+      top: 690px;
+      width: 150px;
+      height: 150px;
+      border-radius: 40px;
+      background: #0b0c0e;
+    }
+    #s3-msg {
+      position: absolute;
+      left: 70px;
+      right: 70px;
+      top: 470px;
+      border-radius: 48px;
+      padding: 38px 42px 42px;
+      background: rgba(24, 27, 33, 0.94);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8), 0 0 140px rgba(150, 190, 255, 0.25);
+      color: #fff;
+      opacity: 0;
+    }
+    #s3-msg-head {
+      display: flex;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 32px;
+      font-weight: 700;
+    }
+    #s3-msg-head span:last-child {
+      margin-left: auto;
+      font-weight: 400;
+    }
+    #s3-msg-body {
+      margin-top: 20px;
+      font-size: 64px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+    }
+    #s3-msg-att {
+      margin-top: 28px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 22px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.07);
+      font-size: 34px;
+    }
+    #s3-msg-thumb {
+      width: 140px;
+      height: 180px;
+      border-radius: 18px;
+      background: radial-gradient(ellipse at 50% 40%, #3a4656, #0b0f14 70%);
+      flex: none;
+    }
+    #s3-msg-file {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 34px;
+    }
+    #s3-msg-dur {
+      margin-top: 6px;
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 30px;
+    }
+  </style>
+  <div id="root" data-composition-id="s3-doute" data-width="1080" data-height="1920">
+    <div id="s3-photo-shot" class="s3-shot">
+      <div id="s3-photo-cam">
+        <div id="s3-phone">
+          <div id="s3-screen">
+            <svg id="s3-pic" viewBox="0 0 740 960" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="s3-sky" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#3a3f63" />
+                  <stop offset="0.55" stop-color="#e08a52" />
+                  <stop offset="0.62" stop-color="#f3c27a" />
+                  <stop offset="0.63" stop-color="#6b4a3a" />
+                  <stop offset="1" stop-color="#2a1d17" />
+                </linearGradient>
+              </defs>
+              <rect width="740" height="960" fill="url(#s3-sky)" />
+              <circle cx="370" cy="560" r="70" fill="#ffd9a0" opacity="0.85" />
+              <!-- Noé -->
+              <g fill="#120c0a">
+                <ellipse cx="240" cy="470" rx="58" ry="72" />
+                <rect x="220" y="520" width="40" height="50" />
+                <path d="M200 560 C150 565 125 600 118 660 L105 960 L375 960 L362 660 C355 600 330 565 280 560 Z" />
+              </g>
+              <!-- Lina's shadow on the sand stays when she is gone: a clue -->
+              <path d="M470 960 L640 790 L700 800 L560 960 Z" fill="#160f0c" opacity="0.7" />
+            </svg>
+            <svg id="s3-lina" viewBox="0 0 740 960" preserveAspectRatio="none">
+              <g fill="#120c0a">
+                <path d="M440 470 C440 380 560 380 560 470 L575 650 L425 650 Z" />
+                <ellipse cx="500" cy="500" rx="52" ry="66" />
+                <rect x="482" y="550" width="36" height="65" />
+                <path d="M465 610 C420 615 400 650 395 700 L385 960 L615 960 L605 700 C600 650 580 615 535 610 Z" />
+                <path d="M590 640 L612 520 L628 522 L612 645 Z" />
+                <path d="M612 646 L636 530 L650 534 L628 650 Z" />
+              </g>
+            </svg>
+            <div id="s3-scan"></div>
+            <div id="s3-pic-meta">12 août · Plage des Ormes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="s3-father-shot" class="s3-shot">
+      <div id="s3-father-cam">
+        <div id="s3-doorlight"></div>
+        <div id="s3-floor"></div>
+        <svg id="s3-father" viewBox="0 0 660 1150">
+          <g fill="#08080a">
+            <ellipse cx="330" cy="210" rx="96" ry="118" />
+            <rect x="285" y="310" width="90" height="90" />
+            <path d="M270 380 C170 390 80 420 60 520 L30 1150 L630 1150 L600 520 C580 420 490 390 390 380 Z" />
+          </g>
+        </svg>
+        <div id="s3-glint"></div>
+      </div>
+    </div>
+
+    <div id="s3-still" class="s3-shot">
+      <div id="s3-still-cam">
+        <div id="s3-halo"></div>
+        <div id="s3-facedown"></div>
+        <div id="s3-lens"></div>
+        <div id="s3-msg">
+          <div id="s3-msg-head"><span>Numéro masqué</span><span>maintenant</span></div>
+          <div id="s3-msg-body">REGARDE LA VIDÉO.</div>
+          <div id="s3-msg-att">
+            <div id="s3-msg-thumb"></div>
+            <div>
+              <div id="s3-msg-file">VID_0316.mp4</div>
+              <div id="s3-msg-dur">0:14 · reçu à 03:16</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // 0.0 Noé holds the photo out to his parents
+    tl.set("#s3-photo-shot", { opacity: 1 }, 0);
+    tl.fromTo("#s3-photo-cam", { y: 140, rotation: -4, scale: 0.98 }, { y: 0, rotation: 0, scale: 1.08, duration: 1.0, ease: "power3.out" }, 0);
+    tl.fromTo("#s3-photo-cam", { scale: 1.08 }, { scale: 1.2, duration: 3.4, ease: "none", immediateRender: false }, 1.0);
+    // 3.2 Lina tears out of the picture
+    tl.fromTo("#s3-scan", { opacity: 0 }, { opacity: 1, duration: 0.08 }, 3.2);
+    tl.fromTo(
+      "#s3-lina",
+      { x: 0, opacity: 1, skewX: 0 },
+      {
+        keyframes: [
+          { x: 24, skewX: 8, opacity: 0.8, duration: 0.08 },
+          { x: -30, skewX: -10, opacity: 1, duration: 0.08 },
+          { x: 12, skewX: 4, opacity: 0.5, duration: 0.1 },
+          { x: -50, skewX: -14, opacity: 0.7, duration: 0.08 },
+          { x: 40, skewX: 20, opacity: 0.25, duration: 0.12 },
+          { x: 0, skewX: 0, opacity: 0, duration: 0.3 },
+        ],
+      },
+      3.25,
+    );
+    tl.to("#s3-scan", { opacity: 0, duration: 0.3 }, 4.1);
+    tl.to("#s3-photo-cam", { scale: 1.35, duration: 0.5, ease: "power2.in" }, 4.4);
+    // 4.9 the father in the doorway
+    tl.set("#s3-photo-shot", { opacity: 0 }, 4.9);
+    tl.set("#s3-father-shot", { opacity: 1 }, 4.9);
+    tl.fromTo("#s3-father-cam", { scale: 1.0 }, { scale: 1.14, duration: 3.3, ease: "none" }, 4.9);
+    tl.fromTo("#s3-glint", { opacity: 0 }, { opacity: 1, duration: 0.15 }, 6.6);
+    tl.to("#s3-glint", { opacity: 0, duration: 0.5 }, 6.9);
+    // 8.2 silence: the phone face down on the table
+    tl.set("#s3-father-shot", { opacity: 0 }, 8.2);
+    tl.set("#s3-still", { opacity: 1 }, 8.2);
+    tl.fromTo("#s3-still-cam", { scale: 1.0 }, { scale: 1.1, duration: 2.6, ease: "none" }, 8.2);
+    // 10.8 it buzzes; light leaks around its edge
+    tl.fromTo("#s3-halo", { opacity: 0 }, { opacity: 1, duration: 0.1 }, 10.8);
+    tl.fromTo(
+      "#s3-facedown",
+      { x: 0 },
+      { keyframes: [{ x: -6, duration: 0.04 }, { x: 6, duration: 0.04 }, { x: -5, duration: 0.04 }, { x: 4, duration: 0.04 }, { x: 0, duration: 0.04 }] },
+      10.8,
+    );
+    // 11.1 the message
+    tl.fromTo("#s3-msg", { opacity: 0, y: -60 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 11.1);
+    tl.to("#s3-still-cam", { scale: 1.18, duration: 2.8, ease: "power1.in" }, 11.1);
+    window.__timelines["s3-doute"] = tl;
+  </script>
+</template>

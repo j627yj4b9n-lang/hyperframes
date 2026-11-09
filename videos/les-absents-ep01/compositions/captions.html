@@ -1,0 +1,82 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: visible;
+      pointer-events: none;
+    }
+    .cap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 1150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      opacity: 0;
+      visibility: hidden;
+    }
+    .cap-who {
+      font-family: "Inter", sans-serif;
+      font-weight: 900;
+      font-size: 28px;
+      letter-spacing: 0.22em;
+      margin-bottom: 10px;
+      opacity: 0.85;
+    }
+    .cap-txt {
+      display: inline-block;
+      max-width: 900px;
+      padding: 10px 26px 14px;
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.55);
+      font-family: "Inter", sans-serif;
+      font-weight: 700;
+      font-size: 60px;
+      line-height: 1.15;
+      color: #ffffff;
+    }
+    .cap-whisper .cap-txt { color: #ff9a9a; font-style: italic; }
+    .cap-noe .cap-who { color: #ffffff; }
+    .cap-mere .cap-who, .cap-mere .cap-txt { color: #f6d29b; }
+    .cap-pere .cap-who, .cap-pere .cap-txt { color: #d4dce6; }
+    .cap-lina .cap-who, .cap-lina .cap-txt { color: #b6dcff; }
+  </style>
+  <div id="root" data-composition-id="captions" data-width="1080" data-height="1920">
+    <div id="cap-00" class="cap cap-whisper"><span class="cap-who"></span><span class="cap-txt">Si tu te souviens d’elle…</span></div>
+    <div id="cap-01" class="cap cap-whisper"><span class="cap-who"></span><span class="cap-txt">tu es déjà en danger.</span></div>
+    <div id="cap-02" class="cap cap-noe"><span class="cap-who">NOÉ</span><span class="cap-txt">Lina ?</span></div>
+    <div id="cap-03" class="cap cap-noe"><span class="cap-who">NOÉ</span><span class="cap-txt">Maman !</span></div>
+    <div id="cap-04" class="cap cap-noe"><span class="cap-who">NOÉ</span><span class="cap-txt">Elle est où, Lina ?</span></div>
+    <div id="cap-05" class="cap cap-mere"><span class="cap-who">LA MÈRE</span><span class="cap-txt">De qui tu parles ?</span></div>
+    <div id="cap-06" class="cap cap-noe"><span class="cap-who">NOÉ</span><span class="cap-txt">Regarde…</span></div>
+    <div id="cap-07" class="cap cap-noe"><span class="cap-who">NOÉ</span><span class="cap-txt">Elle était là, hier !</span></div>
+    <div id="cap-08" class="cap cap-pere"><span class="cap-who">LE PÈRE</span><span class="cap-txt">Noé…</span></div>
+    <div id="cap-09" class="cap cap-pere"><span class="cap-who">LE PÈRE</span><span class="cap-txt">Tu es fils unique.</span></div>
+    <div id="cap-10" class="cap cap-lina"><span class="cap-who">LINA</span><span class="cap-txt">Noé…</span></div>
+    <div id="cap-11" class="cap cap-lina"><span class="cap-who">LINA</span><span class="cap-txt">Je sais que tu vas essayer</span></div>
+    <div id="cap-12" class="cap cap-lina"><span class="cap-who">LINA</span><span class="cap-txt">de me retrouver.</span></div>
+    <div id="cap-13" class="cap cap-lina"><span class="cap-who">LINA</span><span class="cap-txt">Mais écoute-moi bien.</span></div>
+    <div id="cap-14" class="cap cap-lina"><span class="cap-who">LINA</span><span class="cap-txt">Ne fais confiance à personne</span></div>
+    <div id="cap-15" class="cap cap-lina"><span class="cap-who">LINA</span><span class="cap-txt">qui se souvient de moi.</span></div>
+    <div id="cap-16" class="cap cap-lina"><span class="cap-who">LINA</span><span class="cap-txt">Et cette fois…</span></div>
+    <div id="cap-17" class="cap cap-lina"><span class="cap-who">LINA</span><span class="cap-txt">ne leur ouvre surtout pas la porte.</span></div>
+    <div id="cap-18" class="cap cap-mere"><span class="cap-who">LA MÈRE</span><span class="cap-txt">Mon chéri…</span></div>
+    <div id="cap-19" class="cap cap-mere"><span class="cap-who">LA MÈRE</span><span class="cap-txt">Tu n’aurais jamais dû</span></div>
+    <div id="cap-20" class="cap cap-mere"><span class="cap-who">LA MÈRE</span><span class="cap-txt">te souvenir d’elle.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // [selector, open, close] in seconds, from the voice lines' word timings
+    const groups = [["#cap-00",0.95,2.63],["#cap-01",2.65,4.42],["#cap-02",8.89,9.86],["#cap-03",10.59,11.63],["#cap-04",11.65,13.34],["#cap-05",13.54,14.89],["#cap-06",15.39,16.48],["#cap-07",16.5,18.29],["#cap-08",20.34,21.25],["#cap-09",21.84,23.29],["#cap-10",29.64,30.51],["#cap-11",31.07,32.55],["#cap-12",32.57,33.89],["#cap-13",34.46,36.03],["#cap-14",37.44,38.9],["#cap-15",38.92,40.37],["#cap-16",40.94,41.96],["#cap-17",41.98,44.23],["#cap-18",47.05,48.21],["#cap-19",48.83,49.85],["#cap-20",49.87,51.36]];
+    groups.forEach(([sel, s, e]) => {
+      tl.set(sel, { visibility: "visible" }, s);
+      tl.fromTo(sel, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.14, ease: "power2.out" }, s);
+      tl.to(sel, { opacity: 0, duration: 0.12, ease: "power2.in" }, e - 0.12);
+      tl.set(sel, { opacity: 0, visibility: "hidden" }, e);
+    });
+    window.__timelines["captions"] = tl;
+  </script>
+</template>

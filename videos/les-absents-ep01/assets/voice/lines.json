@@ -1,0 +1,447 @@
+{
+  "v01": {
+    "who": "chuchote",
+    "text": "Si tu te souviens d'elle… tu es déjà en danger.",
+    "voice": "fr-FR-DeniseNeural",
+    "words": [
+      {
+        "text": "Si",
+        "start": 0.109541,
+        "end": 0.362499
+      },
+      {
+        "text": "tu",
+        "start": 0.377375,
+        "end": 0.541083
+      },
+      {
+        "text": "te",
+        "start": 0.555958,
+        "end": 0.719666
+      },
+      {
+        "text": "souviens",
+        "start": 0.734541,
+        "end": 1.151207
+      },
+      {
+        "text": "d'elle",
+        "start": 1.166083,
+        "end": 1.508333
+      },
+      {
+        "text": "tu",
+        "start": 1.805958,
+        "end": 1.984541
+      },
+      {
+        "text": "es",
+        "start": 1.999416,
+        "end": 2.073832
+      },
+      {
+        "text": "déjà",
+        "start": 2.088708,
+        "end": 2.460749
+      },
+      {
+        "text": "en",
+        "start": 2.475583,
+        "end": 2.609499
+      },
+      {
+        "text": "danger",
+        "start": 2.624416,
+        "end": 3.219666
+      }
+    ]
+  },
+  "v02": {
+    "who": "noe",
+    "text": "Lina ?",
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "words": [
+      {
+        "text": "Lina",
+        "start": 0.05,
+        "end": 0.6625
+      }
+    ]
+  },
+  "v03": {
+    "who": "noe",
+    "text": "Maman ! Elle est où, Lina ?",
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "words": [
+      {
+        "text": "Maman",
+        "start": 0.05,
+        "end": 0.775
+      },
+      {
+        "text": "Elle",
+        "start": 1.1125,
+        "end": 1.3375
+      },
+      {
+        "text": "est",
+        "start": 1.3375,
+        "end": 1.4
+      },
+      {
+        "text": "où",
+        "start": 1.4,
+        "end": 1.7125
+      },
+      {
+        "text": "Lina",
+        "start": 1.9875,
+        "end": 2.4375
+      }
+    ]
+  },
+  "v04": {
+    "who": "mere",
+    "text": "De qui tu parles ?",
+    "voice": "fr-FR-DeniseNeural",
+    "words": [
+      {
+        "text": "De",
+        "start": 0.102791,
+        "end": 0.283332
+      },
+      {
+        "text": "qui",
+        "start": 0.297208,
+        "end": 0.449999
+      },
+      {
+        "text": "tu",
+        "start": 0.463875,
+        "end": 0.616666
+      },
+      {
+        "text": "parles",
+        "start": 0.630541,
+        "end": 1.088874
+      }
+    ]
+  },
+  "v05": {
+    "who": "noe",
+    "text": "Regarde… Elle était là, hier !",
+    "voice": "fr-FR-RemyMultilingualNeural",
+    "words": [
+      {
+        "text": "Regarde",
+        "start": 0.05,
+        "end": 0.7875
+      },
+      {
+        "text": "Elle",
+        "start": 1.1625,
+        "end": 1.3
+      },
+      {
+        "text": "était",
+        "start": 1.3,
+        "end": 1.5125
+      },
+      {
+        "text": "là",
+        "start": 1.5125,
+        "end": 1.7625
+      },
+      {
+        "text": "hier",
+        "start": 2.0125,
+        "end": 2.5875
+      }
+    ]
+  },
+  "v06": {
+    "who": "pere",
+    "text": "Noé… Tu es fils unique.",
+    "voice": "fr-FR-HenriNeural",
+    "words": [
+      {
+        "text": "Noé",
+        "start": 0.104333,
+        "end": 0.647791
+      },
+      {
+        "text": "Tu",
+        "start": 1.60325,
+        "end": 1.807041
+      },
+      {
+        "text": "es",
+        "start": 1.820666,
+        "end": 1.888582
+      },
+      {
+        "text": "fils",
+        "start": 1.902166,
+        "end": 2.173916
+      },
+      {
+        "text": "unique",
+        "start": 2.1875,
+        "end": 2.690208
+      }
+    ]
+  },
+  "v07": {
+    "who": "lina",
+    "text": "Noé… Je sais que tu vas essayer de me retrouver. Mais écoute-moi bien.",
+    "voice": "fr-FR-EloiseNeural",
+    "words": [
+      {
+        "text": "Noé",
+        "start": 0.101583,
+        "end": 0.606916
+      },
+      {
+        "text": "Je",
+        "start": 1.52925,
+        "end": 1.755333
+      },
+      {
+        "text": "sais",
+        "start": 1.768625,
+        "end": 1.968083
+      },
+      {
+        "text": "que",
+        "start": 1.981375,
+        "end": 2.15425
+      },
+      {
+        "text": "tu",
+        "start": 2.167541,
+        "end": 2.340416
+      },
+      {
+        "text": "vas",
+        "start": 2.353708,
+        "end": 2.526583
+      },
+      {
+        "text": "essayer",
+        "start": 2.539875,
+        "end": 3.018583
+      },
+      {
+        "text": "de",
+        "start": 3.031916,
+        "end": 3.151582
+      },
+      {
+        "text": "me",
+        "start": 3.164875,
+        "end": 3.284541
+      },
+      {
+        "text": "retrouver",
+        "start": 3.297875,
+        "end": 3.989375
+      },
+      {
+        "text": "Mais",
+        "start": 4.920208,
+        "end": 5.146291
+      },
+      {
+        "text": "écoute-moi",
+        "start": 5.159583,
+        "end": 5.771291
+      },
+      {
+        "text": "bien",
+        "start": 5.784583,
+        "end": 6.130333
+      }
+    ]
+  },
+  "v08": {
+    "who": "lina",
+    "text": "Ne fais confiance à personne qui se souvient de moi. Et cette fois… ne leur ouvre surtout pas la porte.",
+    "voice": "fr-FR-EloiseNeural",
+    "words": [
+      {
+        "text": "Ne",
+        "start": 0.101583,
+        "end": 0.221249
+      },
+      {
+        "text": "fais",
+        "start": 0.234583,
+        "end": 0.380874
+      },
+      {
+        "text": "confiance",
+        "start": 0.394166,
+        "end": 0.939374
+      },
+      {
+        "text": "à",
+        "start": 0.952666,
+        "end": 1.032457
+      },
+      {
+        "text": "personne",
+        "start": 1.04575,
+        "end": 1.564375
+      },
+      {
+        "text": "qui",
+        "start": 1.577666,
+        "end": 1.710624
+      },
+      {
+        "text": "se",
+        "start": 1.723916,
+        "end": 1.856874
+      },
+      {
+        "text": "souvient",
+        "start": 1.870208,
+        "end": 2.189374
+      },
+      {
+        "text": "de",
+        "start": 2.202666,
+        "end": 2.335624
+      },
+      {
+        "text": "moi",
+        "start": 2.348916,
+        "end": 2.668082
+      },
+      {
+        "text": "Et",
+        "start": 3.603708,
+        "end": 3.683499
+      },
+      {
+        "text": "cette",
+        "start": 3.696791,
+        "end": 3.949457
+      },
+      {
+        "text": "fois",
+        "start": 3.96275,
+        "end": 4.295208
+      },
+      {
+        "text": "ne",
+        "start": 4.640958,
+        "end": 4.760624
+      },
+      {
+        "text": "leur",
+        "start": 4.773916,
+        "end": 4.999999
+      },
+      {
+        "text": "ouvre",
+        "start": 5.013291,
+        "end": 5.305832
+      },
+      {
+        "text": "surtout",
+        "start": 5.319166,
+        "end": 5.678207
+      },
+      {
+        "text": "pas",
+        "start": 5.6915,
+        "end": 5.837791
+      },
+      {
+        "text": "la",
+        "start": 5.851083,
+        "end": 5.970749
+      },
+      {
+        "text": "porte",
+        "start": 5.984041,
+        "end": 6.529249
+      }
+    ]
+  },
+  "v09": {
+    "who": "mere",
+    "text": "Mon chéri… Tu n'aurais jamais dû te souvenir d'elle.",
+    "voice": "fr-FR-DeniseNeural",
+    "words": [
+      {
+        "text": "Mon",
+        "start": 0.105541,
+        "end": 0.355541
+      },
+      {
+        "text": "chéri",
+        "start": 0.369458,
+        "end": 0.911124
+      },
+      {
+        "text": "Tu",
+        "start": 1.888875,
+        "end": 2.055541
+      },
+      {
+        "text": "n'aurais",
+        "start": 2.069458,
+        "end": 2.402791
+      },
+      {
+        "text": "jamais",
+        "start": 2.416666,
+        "end": 2.763874
+      },
+      {
+        "text": "dû",
+        "start": 2.777791,
+        "end": 2.916666
+      },
+      {
+        "text": "te",
+        "start": 2.930541,
+        "end": 3.083332
+      },
+      {
+        "text": "souvenir",
+        "start": 3.097208,
+        "end": 3.569416
+      },
+      {
+        "text": "d'elle",
+        "start": 3.583333,
+        "end": 4.055541
+      }
+    ]
+  },
+  "v10": {
+    "who": "narr",
+    "text": "Vous devez choisir.",
+    "voice": "fr-FR-HenriNeural",
+    "words": [
+      {
+        "text": "Vous",
+        "start": 0.106833,
+        "end": 0.334124
+      },
+      {
+        "text": "devez",
+        "start": 0.348291,
+        "end": 0.632374
+      },
+      {
+        "text": "choisir",
+        "start": 0.646583,
+        "end": 1.356791
+      }
+    ]
+  }
+}

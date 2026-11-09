@@ -1,0 +1,307 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #000;
+      overflow: hidden;
+      font-family: "Inter", sans-serif;
+    }
+    #s5-glass {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+    }
+    #s5-glass-cam {
+      position: absolute;
+      inset: 0;
+    }
+    #s5-phone {
+      position: absolute;
+      left: 120px;
+      top: 200px;
+      width: 840px;
+      height: 1640px;
+      border-radius: 108px;
+      background: #0b0c0e;
+      box-shadow: 0 0 0 6px #1b1e23, 0 40px 120px rgba(0, 0, 0, 0.9);
+      overflow: hidden;
+    }
+    #s5-reflect {
+      position: absolute;
+      inset: 20px;
+      border-radius: 90px;
+      overflow: hidden;
+      background: linear-gradient(160deg, #15181c 0%, #07080a 60%);
+    }
+    #s5-hall {
+      position: absolute;
+      left: 250px;
+      top: 220px;
+      width: 300px;
+      height: 900px;
+      background: linear-gradient(180deg, rgba(150, 165, 185, 0.22), rgba(60, 70, 85, 0.06));
+    }
+    #s5-noe {
+      position: absolute;
+      left: 40px;
+      top: 820px;
+      width: 760px;
+      height: 820px;
+    }
+    #s5-mother {
+      position: absolute;
+      left: 330px;
+      top: 300px;
+      width: 330px;
+      height: 760px;
+    }
+    #s5-sheen {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.07) 42%, transparent 54%);
+    }
+    #s5-lockglow {
+      position: absolute;
+      inset: 20px;
+      border-radius: 90px;
+      background: radial-gradient(ellipse 90% 70% at 50% 30%, #3a0f14, #120507 70%);
+      opacity: 0;
+    }
+    #s5-alert {
+      position: absolute;
+      left: 160px;
+      right: 160px;
+      top: 560px;
+      border-radius: 48px;
+      padding: 38px 42px 44px;
+      background: rgba(24, 20, 22, 0.95);
+      box-shadow: 0 0 0 3px rgba(255, 60, 70, 0.6), 0 0 160px rgba(255, 40, 50, 0.45);
+      color: #fff;
+      opacity: 0;
+    }
+    #s5-alert-head {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 34px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.75);
+    }
+    #s5-alert-av {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6d4a5a, #2a1a22);
+    }
+    #s5-alert-head span:last-child {
+      margin-left: auto;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.5);
+    }
+    #s5-alert-body {
+      margin-top: 24px;
+      font-size: 66px;
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+    }
+    /* --- the vote */
+    #s5-vote {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background: radial-gradient(ellipse 80% 50% at 50% 40%, #16090b, #000 70%);
+    }
+    #s5-must {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 300px;
+      text-align: center;
+      color: #fff;
+      font-family: "League Gothic", "Oswald", sans-serif;
+      font-size: 150px;
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+    }
+    .s5-card {
+      position: absolute;
+      left: 90px;
+      right: 90px;
+      height: 250px;
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      padding: 0 44px;
+      color: #fff;
+    }
+    #s5-card-a {
+      top: 640px;
+      background: linear-gradient(90deg, rgba(60, 110, 170, 0.35), rgba(60, 110, 170, 0.1));
+      box-shadow: inset 0 0 0 3px rgba(130, 180, 240, 0.7);
+    }
+    #s5-card-b {
+      top: 920px;
+      background: linear-gradient(90deg, rgba(200, 40, 50, 0.38), rgba(200, 40, 50, 0.1));
+      box-shadow: inset 0 0 0 3px rgba(255, 90, 100, 0.75);
+    }
+    .s5-letter {
+      font-family: "League Gothic", "Oswald", sans-serif;
+      font-size: 190px;
+      line-height: 1;
+      width: 110px;
+      text-align: center;
+    }
+    .s5-title {
+      font-family: "Oswald", sans-serif;
+      font-weight: 700;
+      font-size: 64px;
+      line-height: 1;
+    }
+    .s5-desc {
+      margin-top: 14px;
+      font-size: 34px;
+      line-height: 1.2;
+      color: rgba(255, 255, 255, 0.78);
+    }
+    #s5-cta {
+      position: absolute;
+      left: 60px;
+      right: 60px;
+      top: 1200px;
+      text-align: center;
+      color: #fff;
+      font-size: 46px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+    #s5-cta b {
+      color: #ff5059;
+      font-weight: 900;
+    }
+    #s5-logo {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 230px;
+      opacity: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #s5-logo-title {
+      color: #f2f2f2;
+      font-family: "League Gothic", "Oswald", sans-serif;
+      font-size: 170px;
+      letter-spacing: 0.08em;
+      line-height: 1;
+    }
+    #s5-logo-line {
+      width: 520px;
+      height: 4px;
+      margin: 26px 0;
+      background: #c4202a;
+    }
+    #s5-logo-ep {
+      color: rgba(255, 255, 255, 0.8);
+      font-family: "Oswald", sans-serif;
+      font-size: 52px;
+      letter-spacing: 0.3em;
+    }
+  </style>
+  <div id="root" data-composition-id="s5-choix" data-width="1080" data-height="1920">
+    <div id="s5-glass">
+      <div id="s5-glass-cam">
+        <div id="s5-phone">
+          <div id="s5-reflect">
+            <div id="s5-hall"></div>
+            <!-- the mother, reflected in the black screen, right behind him -->
+            <svg id="s5-mother" viewBox="0 0 330 760">
+              <g fill="rgba(160,175,195,0.30)">
+                <circle cx="168" cy="52" r="34" />
+                <ellipse cx="165" cy="140" rx="62" ry="78" />
+                <path d="M120 250 C70 260 45 300 38 360 L20 760 L310 760 L292 360 C285 300 260 260 210 250 Z" />
+              </g>
+            </svg>
+            <svg id="s5-noe" viewBox="0 0 760 820">
+              <g fill="rgba(140,155,175,0.16)">
+                <ellipse cx="380" cy="230" rx="140" ry="175" />
+                <path d="M250 420 C120 430 50 500 30 600 L0 820 L760 820 L730 600 C710 500 640 430 510 420 Z" />
+              </g>
+            </svg>
+            <div id="s5-sheen"></div>
+          </div>
+          <div id="s5-lockglow"></div>
+        </div>
+        <div id="s5-alert">
+          <div id="s5-alert-head"><div id="s5-alert-av"></div><span>Lina</span><span>maintenant</span></div>
+          <div id="s5-alert-body">NOÉ, NE LUI FAIS PAS CONFIANCE.</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="s5-vote">
+      <div id="s5-must">VOUS DEVEZ<br />CHOISIR.</div>
+      <div id="s5-card-a" class="s5-card">
+        <div class="s5-letter">A</div>
+        <div>
+          <div class="s5-title">OUVRIR LA PORTE</div>
+          <div class="s5-desc">Noé fait confiance à sa mère.</div>
+        </div>
+      </div>
+      <div id="s5-card-b" class="s5-card">
+        <div class="s5-letter">B</div>
+        <div>
+          <div class="s5-title">S’ENFUIR</div>
+          <div class="s5-desc">Noé croit le message de Lina.</div>
+        </div>
+      </div>
+      <div id="s5-cta">Commentez <b>A</b> ou <b>B</b>.<br />Le vote majoritaire décide de l’épisode 2.</div>
+    </div>
+
+    <div id="s5-logo">
+      <div id="s5-logo-title">LES ABSENTS</div>
+      <div id="s5-logo-line"></div>
+      <div id="s5-logo-ep">ÉPISODE 1/14</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // 0.25 he turns: the black glass shows her standing behind him
+    tl.fromTo("#s5-glass", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0.25);
+    tl.fromTo("#s5-glass-cam", { scale: 1.0, rotation: -3, x: 60 }, { scale: 1.06, rotation: 0, x: 0, duration: 0.6, ease: "power3.out" }, 0.25);
+    tl.fromTo("#s5-glass-cam", { scale: 1.06 }, { scale: 1.3, duration: 5.0, ease: "power1.in", immediateRender: false }, 0.85);
+    tl.fromTo("#s5-mother", { opacity: 0.0, y: 30 }, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, 0.4);
+    // she leans in on "mon chéri"
+    tl.to("#s5-mother", { scale: 1.12, y: 30, transformOrigin: "50% 20%", duration: 3.2, ease: "power1.inOut" }, 1.6);
+    // 5.6 the screen lights: a message from Lina
+    tl.fromTo("#s5-lockglow", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 5.6);
+    tl.fromTo("#s5-alert", { opacity: 0, y: -50, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "power3.out" }, 5.65);
+    tl.fromTo(
+      "#s5-alert",
+      { x: 0 },
+      {
+        keyframes: [{ x: -14, duration: 0.05 }, { x: 12, duration: 0.05 }, { x: -6, duration: 0.05 }, { x: 0, duration: 0.05 }],
+        immediateRender: false,
+      },
+      6.6,
+    );
+    // 8.0 black, the boom
+    tl.set("#s5-glass", { opacity: 0 }, 8.0);
+    // 8.3 the vote
+    tl.set("#s5-vote", { opacity: 1 }, 8.3);
+    tl.fromTo("#s5-must", { opacity: 0, scale: 1.18, filter: "blur(12px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.45, ease: "power4.out" }, 8.3);
+    tl.fromTo("#s5-card-a", { opacity: 0, x: -140 }, { opacity: 1, x: 0, duration: 0.45, ease: "power4.out" }, 9.4);
+    tl.fromTo("#s5-card-b", { opacity: 0, x: 140 }, { opacity: 1, x: 0, duration: 0.45, ease: "power4.out" }, 9.7);
+    tl.fromTo("#s5-cta", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 10.6);
+    // 11.3 the title takes the top of the vote screen; the cards and the call stay
+    tl.to("#s5-must", { opacity: 0, scale: 0.94, duration: 0.3, ease: "power2.in" }, 11.3);
+    tl.fromTo("#s5-logo", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 11.55);
+    tl.fromTo("#s5-logo-title", { scale: 1.2 }, { scale: 1, duration: 1.0, ease: "power3.out" }, 11.55);
+    tl.fromTo("#s5-logo-line", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.out" }, 11.75);
+    tl.fromTo("#s5-logo-ep", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 11.9);
+    window.__timelines["s5-choix"] = tl;
+  </script>
+</template>

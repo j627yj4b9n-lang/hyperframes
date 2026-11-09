@@ -1,0 +1,36 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    #fx-grain {
+      position: absolute;
+      left: -200px;
+      top: -200px;
+      width: 1480px;
+      height: 2320px;
+      opacity: 0.11;
+      mix-blend-mode: screen;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='256' height='256'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='317'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.4 -0.2'/></filter><rect width='256' height='256' filter='url(%23n)'/></svg>");
+      background-size: 256px 256px;
+    }
+    #fx-vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 75% 62% at 50% 46%, transparent 55%, rgba(0, 0, 0, 0.72) 100%);
+    }
+  </style>
+  <div id="root" data-composition-id="fx" data-width="1080" data-height="1920">
+    <div id="fx-grain" data-layout-ignore></div>
+    <div id="fx-vignette" data-layout-ignore></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // film grain: the texture jumps to a new offset every frame-ish (deterministic)
+    tl.fromTo("#fx-grain", { x: 0, y: 0 }, { x: 173, y: 131, duration: 60, ease: "steps(1440)" }, 0);
+    window.__timelines["fx"] = tl;
+  </script>
+</template>

@@ -1,0 +1,230 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #000;
+      overflow: hidden;
+      font-family: "Inter", sans-serif;
+    }
+    #s4-cam {
+      position: absolute;
+      inset: 0;
+    }
+    /* Lina's room, still furnished: the poster rectangles match the pale marks in s2 */
+    #s4-room {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 55% at 45% 60%, #1c2633 0%, #0a0e14 60%, #030406 100%);
+    }
+    .s4-poster {
+      position: absolute;
+      opacity: 0.55;
+    }
+    #s4-doorway {
+      position: absolute;
+      left: 760px;
+      top: 360px;
+      width: 230px;
+      height: 760px;
+      background: linear-gradient(180deg, #121821, #0b1017);
+      box-shadow: inset 0 0 0 8px #070a0e;
+    }
+    #s4-figure {
+      position: absolute;
+      left: 800px;
+      top: 470px;
+      width: 150px;
+      height: 650px;
+      opacity: 0;
+    }
+    #s4-lina {
+      position: absolute;
+      left: 140px;
+      top: 560px;
+      width: 800px;
+      height: 1360px;
+    }
+    #s4-key {
+      position: absolute;
+      left: 140px;
+      top: 700px;
+      width: 760px;
+      height: 900px;
+      background: radial-gradient(ellipse 45% 40% at 40% 60%, rgba(190, 215, 255, 0.28), transparent 70%);
+      mix-blend-mode: screen;
+    }
+    #s4-noise {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0 2px, transparent 2px 6px);
+    }
+    #s4-tear {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 90px;
+      top: 900px;
+      background: linear-gradient(90deg, rgba(255, 60, 70, 0.0), rgba(255, 60, 70, 0.35), rgba(80, 200, 255, 0.35), rgba(80, 200, 255, 0));
+      mix-blend-mode: screen;
+      opacity: 0;
+    }
+    /* recorder UI */
+    #s4-ui-top {
+      position: absolute;
+      left: 80px;
+      right: 80px;
+      top: 200px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: #fff;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 34px;
+    }
+    #s4-rec {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #ff3540;
+      box-shadow: 0 0 20px rgba(255, 53, 64, 0.8);
+    }
+    #s4-tc {
+      margin-left: auto;
+      font-variant-numeric: tabular-nums;
+    }
+    #s4-file {
+      position: absolute;
+      left: 80px;
+      top: 250px;
+      color: rgba(255, 255, 255, 0.72);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 28px;
+    }
+    #s4-bar {
+      position: absolute;
+      left: 80px;
+      right: 80px;
+      top: 310px;
+      height: 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+    #s4-bar-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      border-radius: 4px;
+      background: #fff;
+      transform-origin: 0 50%;
+    }
+    #s4-flash {
+      position: absolute;
+      inset: 0;
+      background: #fff;
+      opacity: 0;
+    }
+  </style>
+  <div id="root" data-composition-id="s4-video" data-width="1080" data-height="1920">
+    <div id="s4-cam">
+      <div id="s4-room"></div>
+      <div class="s4-poster" style="left: 90px; top: 380px; width: 190px; height: 266px; background: linear-gradient(160deg, #4a2a3a, #1a1622)"></div>
+      <div class="s4-poster" style="left: 310px; top: 430px; width: 150px; height: 150px; background: linear-gradient(160deg, #2a4a44, #10201e)"></div>
+      <div id="s4-doorway"></div>
+      <!-- a man in grey in her doorway, six frames long: a clue -->
+      <svg id="s4-figure" viewBox="0 0 150 650">
+        <g fill="#5d646d">
+          <ellipse cx="75" cy="70" rx="40" ry="50" />
+          <path d="M5 650 L12 190 C20 140 50 125 75 125 C100 125 130 140 138 190 L145 650 Z" />
+        </g>
+      </svg>
+      <svg id="s4-lina" viewBox="0 0 800 1360">
+        <defs>
+          <radialGradient id="s4-rim" cx="0.3" cy="0.4" r="0.7">
+            <stop offset="0" stop-color="#2b3644" />
+            <stop offset="1" stop-color="#07090c" />
+          </radialGradient>
+          <radialGradient id="s4-skin" cx="0.4" cy="0.55" r="0.6">
+            <stop offset="0" stop-color="rgba(170,195,230,0.35)" />
+            <stop offset="1" stop-color="rgba(170,195,230,0)" />
+          </radialGradient>
+        </defs>
+        <g id="s4-lina-body" fill="url(#s4-rim)">
+          <!-- hair falling to the shoulders -->
+          <rect x="350" y="440" width="100" height="270" />
+          <path d="M330 690 C220 700 140 760 120 880 L90 1360 L710 1360 L680 880 C660 760 580 700 470 690 Z" />
+          <path d="M268 330 C255 160 330 95 400 95 C475 95 548 160 535 330 L560 700 C520 730 470 720 455 690 L345 690 C330 720 280 730 240 700 Z" />
+          <ellipse cx="400" cy="330" rx="112" ry="148" fill="#121820" />
+          <ellipse cx="362" cy="350" rx="70" ry="110" fill="url(#s4-skin)" />
+        </g>
+      </svg>
+      <div id="s4-key"></div>
+      <div id="s4-noise"></div>
+      <div id="s4-tear"></div>
+    </div>
+    <div id="s4-ui-top"><div id="s4-rec"></div><span>REC</span><span id="s4-tc">03:16:41</span></div>
+    <div id="s4-file">VID_0316.mp4</div>
+    <div id="s4-bar"><div id="s4-bar-fill"></div></div>
+    <div id="s4-flash"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // open the attachment: a flash and a tear
+    tl.fromTo("#s4-flash", { opacity: 0.9 }, { opacity: 0, duration: 0.35, ease: "power2.out" }, 0);
+    tl.fromTo("#s4-cam", { scale: 1.12, filter: "blur(14px)" }, { scale: 1.0, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 0);
+    // handheld drift while she talks
+    tl.fromTo(
+      "#s4-cam",
+      { x: 0, y: 0, rotation: 0 },
+      {
+        keyframes: [
+          { x: -8, y: 6, rotation: -0.4, duration: 1.4, ease: "sine.inOut" },
+          { x: 6, y: -4, rotation: 0.3, duration: 1.6, ease: "sine.inOut" },
+          { x: -4, y: 8, rotation: -0.2, duration: 1.5, ease: "sine.inOut" },
+          { x: 6, y: -2, rotation: 0.3, duration: 1.5, ease: "sine.inOut" },
+        ],
+      },
+      0.5,
+    );
+    tl.fromTo("#s4-lina", { scale: 1.0, transformOrigin: "50% 30%" }, { scale: 1.12, duration: 6.4, ease: "none" }, 0.5);
+    // the recorder's progress and timecode
+    tl.fromTo("#s4-bar-fill", { scaleX: 0 }, { scaleX: 1, duration: 15.2, ease: "none" }, 0);
+    const tc = document.querySelector("#s4-tc");
+    const clock = { s: 41 };
+    tl.fromTo(
+      clock,
+      { s: 41 },
+      {
+        s: 55,
+        duration: 15.2,
+        ease: "none",
+        onUpdate: () => {
+          tc.textContent = "03:16:" + String(Math.floor(clock.s)).padStart(2, "0");
+        },
+      },
+      0,
+    );
+    tl.fromTo("#s4-rec", { opacity: 1 }, { opacity: 0.25, duration: 0.5, ease: "steps(1)", repeat: 29, yoyo: true }, 0);
+    // 6.9 she looks behind her; the camera jolts
+    tl.fromTo("#s4-lina-body", { x: 0 }, { x: 70, duration: 0.45, ease: "power3.out" }, 6.9);
+    tl.fromTo("#s4-cam", { rotation: 0 }, { rotation: 2.5, duration: 0.2, ease: "power2.out", immediateRender: false }, 6.9);
+    tl.set("#s4-figure", { opacity: 0.85 }, 7.5);
+    tl.set("#s4-figure", { opacity: 0 }, 7.7);
+    tl.fromTo("#s4-tear", { opacity: 0, y: 0 }, { opacity: 1, y: 160, duration: 0.2 }, 7.5);
+    tl.to("#s4-tear", { opacity: 0, duration: 0.1 }, 7.7);
+    tl.to("#s4-lina-body", { x: 0, duration: 0.5, ease: "power2.inOut" }, 8.2);
+    tl.to("#s4-cam", { rotation: 0, duration: 0.5, ease: "power2.inOut" }, 8.2);
+    // she leans into the lens for the warning
+    tl.fromTo("#s4-lina", { scale: 1.12 }, { scale: 1.42, duration: 6.4, ease: "power1.in", immediateRender: false }, 8.4);
+    // 15.2 / 15.8 / 16.4 three knocks: the frame jumps on each
+    [15.2, 15.8, 16.4].forEach((t, i) => {
+      tl.fromTo("#s4-cam", { y: 0, scale: 1 + i * 0.04 }, { y: 26, scale: 1.06 + i * 0.04, duration: 0.05, ease: "power4.out", immediateRender: false }, t);
+      tl.to("#s4-cam", { y: 0, duration: 0.3, ease: "power2.out" }, t + 0.05);
+      tl.fromTo("#s4-flash", { opacity: 0.35 }, { opacity: 0, duration: 0.25, immediateRender: false }, t);
+    });
+    tl.to("#s4-cam", { opacity: 0.0, duration: 0.2, ease: "power2.in" }, 16.8);
+    window.__timelines["s4-video"] = tl;
+  </script>
+</template>

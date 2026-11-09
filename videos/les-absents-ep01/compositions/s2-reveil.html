@@ -1,0 +1,458 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #030405;
+      overflow: hidden;
+      font-family: "Inter", sans-serif;
+    }
+    .s2-shot {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      overflow: hidden;
+    }
+    /* --- wake: ceiling lamp out of focus */
+    #s2-wake {
+      background: radial-gradient(ellipse 70% 50% at 50% 40%, #1a222c 0%, #06080b 70%);
+    }
+    #s2-wake-in {
+      position: absolute;
+      inset: 0;
+    }
+    #s2-lamp {
+      position: absolute;
+      left: 390px;
+      top: 620px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200, 220, 255, 0.55), rgba(90, 120, 170, 0.15) 55%, transparent 72%);
+    }
+    #s2-beam {
+      position: absolute;
+      left: -200px;
+      top: 0;
+      width: 1500px;
+      height: 1920px;
+      background: repeating-linear-gradient(
+        112deg,
+        transparent 0 120px,
+        rgba(120, 160, 210, 0.08) 120px 170px
+      );
+    }
+    /* --- phone in hand */
+    #s2-hand {
+      background: radial-gradient(ellipse 80% 60% at 50% 50%, #0d1218, #030405 75%);
+    }
+    #s2-handcam {
+      position: absolute;
+      inset: 0;
+    }
+    #s2-phone {
+      position: absolute;
+      left: 150px;
+      top: 210px;
+      width: 780px;
+      height: 1560px;
+      border-radius: 100px;
+      background: #0d0f12;
+      box-shadow:
+        0 0 0 6px #1b1e23,
+        0 40px 120px rgba(0, 0, 0, 0.9),
+        0 0 200px rgba(110, 160, 230, 0.2);
+    }
+    #s2-screen {
+      position: absolute;
+      inset: 20px;
+      border-radius: 82px;
+      overflow: hidden;
+      background: #0b0d11;
+      padding: 120px 48px 0;
+      color: #fff;
+    }
+    #s2-calls-title {
+      font-size: 64px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    #s2-calls-sub {
+      margin-top: 8px;
+      font-size: 32px;
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: 400;
+    }
+    .s2-row {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      padding: 30px 0;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.07);
+    }
+    .s2-avatar {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      background: #262b33;
+      flex: none;
+    }
+    .s2-name {
+      font-size: 42px;
+      font-weight: 700;
+    }
+    .s2-meta {
+      font-size: 30px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 4px;
+    }
+    .s2-red {
+      color: #ff4b52;
+    }
+    .s2-time {
+      margin-left: auto;
+      font-size: 30px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+    /* --- corridor POV */
+    #s2-corridor {
+      background: #050608;
+    }
+    #s2-corr-cam {
+      position: absolute;
+      inset: 0;
+    }
+    #s2-corr-left,
+    #s2-corr-right,
+    #s2-corr-floor,
+    #s2-corr-ceil {
+      position: absolute;
+      inset: 0;
+    }
+    #s2-corr-left {
+      background: linear-gradient(90deg, #0b0d10, #15191e);
+      clip-path: polygon(0 0, 400px 760px, 400px 1160px, 0 1920px);
+    }
+    #s2-corr-right {
+      background: linear-gradient(270deg, #0a0c0f, #13171c);
+      clip-path: polygon(1080px 0, 680px 760px, 680px 1160px, 1080px 1920px);
+    }
+    #s2-corr-floor {
+      background: linear-gradient(0deg, #14110e, #0b0a09);
+      clip-path: polygon(0 1920px, 400px 1160px, 680px 1160px, 1080px 1920px);
+    }
+    #s2-corr-ceil {
+      background: #060708;
+      clip-path: polygon(0 0, 400px 760px, 680px 760px, 1080px 0);
+    }
+    #s2-corr-door {
+      position: absolute;
+      left: 430px;
+      top: 800px;
+      width: 220px;
+      height: 360px;
+      background: linear-gradient(180deg, #c9d6e6, #8ea3bb);
+      box-shadow: 0 0 120px 30px rgba(170, 200, 235, 0.45);
+    }
+    #s2-corr-doorleaf {
+      position: absolute;
+      left: 430px;
+      top: 800px;
+      width: 150px;
+      height: 360px;
+      background: #1b1f25;
+    }
+    /* --- empty room */
+    #s2-room {
+      background: #9aa3ad;
+    }
+    #s2-room-cam {
+      position: absolute;
+      inset: 0;
+    }
+    #s2-room-back {
+      position: absolute;
+      left: 170px;
+      top: 430px;
+      width: 740px;
+      height: 820px;
+      background: linear-gradient(180deg, #b9c1ca, #a6afb9);
+    }
+    #s2-room-left {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, #6f7883, #959ea8);
+      clip-path: polygon(0 0, 170px 430px, 170px 1250px, 0 1920px);
+    }
+    #s2-room-right {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(270deg, #757e89, #9aa3ad);
+      clip-path: polygon(1080px 0, 910px 430px, 910px 1250px, 1080px 1920px);
+    }
+    #s2-room-floor {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(90deg, #5e5146 0 88px, #544840 88px 92px);
+      clip-path: polygon(0 1920px, 170px 1250px, 910px 1250px, 1080px 1920px);
+    }
+    #s2-room-ceil {
+      position: absolute;
+      inset: 0;
+      background: #c9cfd6;
+      clip-path: polygon(0 0, 170px 430px, 910px 430px, 1080px 0);
+    }
+    #s2-room-window {
+      position: absolute;
+      left: 590px;
+      top: 560px;
+      width: 230px;
+      height: 340px;
+      background: linear-gradient(180deg, #e9eef3, #c3ced9);
+      border: 14px solid #d7dde3;
+      box-shadow: 0 0 140px 40px rgba(235, 240, 248, 0.5);
+    }
+    #s2-room-carve {
+      position: absolute;
+      left: 600px;
+      top: 908px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 18px;
+      color: rgba(60, 50, 40, 0.55);
+    }
+    /* lighter rectangles where frames and posters hung: a clue */
+    .s2-ghost {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.16);
+      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.08);
+    }
+    #s2-room-bedmark {
+      position: absolute;
+      left: 230px;
+      top: 1300px;
+      width: 420px;
+      height: 120px;
+      background: rgba(255, 255, 255, 0.07);
+      transform: perspective(400px) rotateX(55deg);
+    }
+    #s2-room-shade {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 70% at 55% 45%, transparent 40%, rgba(5, 8, 12, 0.75));
+    }
+    /* --- kitchen */
+    #s2-kitchen {
+      background: #0d0c0b;
+    }
+    #s2-kit-cam {
+      position: absolute;
+      inset: 0;
+    }
+    #s2-kit-window {
+      position: absolute;
+      left: 280px;
+      top: 330px;
+      width: 560px;
+      height: 700px;
+      background: linear-gradient(180deg, #e8d2b0, #b98f62);
+      box-shadow: 0 0 260px 80px rgba(215, 170, 110, 0.4);
+    }
+    #s2-kit-bars {
+      position: absolute;
+      left: 280px;
+      top: 330px;
+      width: 560px;
+      height: 700px;
+      background:
+        linear-gradient(90deg, transparent 274px, #0d0c0b 274px 286px, transparent 286px),
+        linear-gradient(180deg, transparent 340px, #0d0c0b 340px 352px, transparent 352px);
+    }
+    #s2-kit-counter {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 1030px;
+      height: 900px;
+      background: linear-gradient(180deg, #2a2420 0, #15120f 30px, #0a0908 100%);
+    }
+    #s2-mother {
+      position: absolute;
+      left: 330px;
+      top: 520px;
+      width: 460px;
+      height: 620px;
+    }
+    #s2-table {
+      position: absolute;
+      left: 60px;
+      right: 60px;
+      top: 1350px;
+      height: 260px;
+      background: linear-gradient(180deg, #3a2f26, #1d1813);
+      border-radius: 10px;
+    }
+    .s2-mug {
+      position: absolute;
+      top: 1290px;
+      width: 96px;
+      height: 92px;
+      border-radius: 6px 6px 22px 22px;
+      background: linear-gradient(90deg, #c9c2b6, #8d877e);
+    }
+    #s2-steam {
+      position: absolute;
+      left: 590px;
+      top: 980px;
+      width: 60px;
+      height: 160px;
+      background: radial-gradient(ellipse, rgba(255, 240, 220, 0.25), transparent 70%);
+      filter: blur(10px);
+    }
+  </style>
+  <div id="root" data-composition-id="s2-reveil" data-width="1080" data-height="1920">
+    <div id="s2-wake" class="s2-shot">
+      <div id="s2-wake-in">
+        <div id="s2-beam"></div>
+        <div id="s2-lamp"></div>
+      </div>
+    </div>
+
+    <div id="s2-hand" class="s2-shot">
+      <div id="s2-handcam">
+        <div id="s2-phone">
+          <div id="s2-screen">
+            <div id="s2-calls-title">Récents</div>
+            <div id="s2-calls-sub">Appels manqués</div>
+            <div class="s2-row">
+              <div class="s2-avatar"></div>
+              <div>
+                <div class="s2-name s2-red">Numéro masqué (37)</div>
+                <div class="s2-meta">appels manqués</div>
+              </div>
+              <div class="s2-time">03:17</div>
+            </div>
+            <div class="s2-row">
+              <div class="s2-avatar"></div>
+              <div>
+                <div class="s2-name">&nbsp;</div>
+                <div class="s2-meta">sortant · 4 min</div>
+              </div>
+              <div class="s2-time">02:58</div>
+            </div>
+            <div class="s2-row">
+              <div class="s2-avatar"></div>
+              <div>
+                <div class="s2-name">Maman</div>
+                <div class="s2-meta">entrant · 1 min</div>
+              </div>
+              <div class="s2-time">hier</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="s2-corridor" class="s2-shot">
+      <div id="s2-corr-cam">
+        <div id="s2-corr-ceil"></div>
+        <div id="s2-corr-left"></div>
+        <div id="s2-corr-right"></div>
+        <div id="s2-corr-floor"></div>
+        <div id="s2-corr-door"></div>
+        <div id="s2-corr-doorleaf"></div>
+      </div>
+    </div>
+
+    <div id="s2-room" class="s2-shot">
+      <div id="s2-room-cam">
+        <div id="s2-room-ceil"></div>
+        <div id="s2-room-back"></div>
+        <div id="s2-room-left"></div>
+        <div id="s2-room-right"></div>
+        <div id="s2-room-floor"></div>
+        <div class="s2-ghost" style="left: 230px; top: 560px; width: 150px; height: 210px"></div>
+        <div class="s2-ghost" style="left: 400px; top: 600px; width: 120px; height: 120px"></div>
+        <div class="s2-ghost" style="left: 250px; top: 800px; width: 260px; height: 170px"></div>
+        <div id="s2-room-window"></div>
+        <div id="s2-room-carve" data-layout-ignore>L + N</div>
+        <div id="s2-room-bedmark"></div>
+        <div id="s2-room-shade"></div>
+      </div>
+    </div>
+
+    <div id="s2-kitchen" class="s2-shot">
+      <div id="s2-kit-cam">
+        <div id="s2-kit-window"></div>
+        <div id="s2-kit-bars"></div>
+        <svg id="s2-mother" viewBox="0 0 460 620">
+          <g fill="#0a0807">
+            <ellipse cx="230" cy="170" rx="74" ry="92" />
+            <circle cx="232" cy="78" r="44" />
+            <rect x="198" y="240" width="64" height="70" />
+            <path d="M180 290 C120 300 70 320 52 380 L30 620 L430 620 L408 380 C390 320 340 300 280 290 Z" />
+          </g>
+        </svg>
+        <div id="s2-steam"></div>
+        <div id="s2-kit-counter"></div>
+        <div id="s2-table"></div>
+        <!-- four mugs for a family of three: a clue -->
+        <div class="s2-mug" style="left: 170px"></div>
+        <div class="s2-mug" style="left: 390px"></div>
+        <div class="s2-mug" style="left: 610px"></div>
+        <div class="s2-mug" style="left: 830px"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    const cut = (on, off, t) => {
+      if (off) tl.set(off, { opacity: 0 }, t);
+      tl.set(on, { opacity: 1 }, t);
+    };
+    // 0.00 wake: the ceiling snaps into focus
+    cut("#s2-wake", null, 0);
+    tl.fromTo(
+      "#s2-wake-in",
+      { filter: "blur(26px)", scale: 1.25, rotation: -6 },
+      { filter: "blur(0px)", scale: 1, rotation: 0, duration: 0.45, ease: "power3.out" },
+      0,
+    );
+    // 0.45 phone in hand: 37 missed calls
+    cut("#s2-hand", "#s2-wake", 0.45);
+    tl.fromTo("#s2-handcam", { y: 120, rotation: 3, scale: 1.02 }, { y: 0, rotation: -1, scale: 1.08, duration: 1.8, ease: "power2.out" }, 0.45);
+    // 2.25 corridor, running
+    cut("#s2-corridor", "#s2-hand", 2.25);
+    tl.fromTo("#s2-corr-cam", { scale: 1 }, { scale: 2.1, duration: 1.75, ease: "power2.in" }, 2.25);
+    tl.fromTo(
+      "#s2-corr-cam",
+      { y: 0, x: 0 },
+      {
+        keyframes: [
+          { y: -18, x: 10, duration: 0.19 },
+          { y: 14, x: -8, duration: 0.19 },
+          { y: -16, x: 8, duration: 0.19 },
+          { y: 12, x: -10, duration: 0.19 },
+          { y: -14, x: 6, duration: 0.19 },
+          { y: 10, x: -6, duration: 0.19 },
+          { y: -10, x: 4, duration: 0.19 },
+          { y: 6, x: -2, duration: 0.19 },
+          { y: 0, x: 0, duration: 0.23 },
+        ],
+      },
+      2.25,
+    );
+    tl.fromTo("#s2-corr-doorleaf", { scaleX: 1, transformOrigin: "0% 50%" }, { scaleX: 0.15, duration: 0.6, ease: "power2.in" }, 3.3);
+    // 4.00 the empty room
+    cut("#s2-room", "#s2-corridor", 4.0);
+    tl.fromTo("#s2-room-cam", { scale: 1.18, x: 0 }, { scale: 1.0, x: -20, duration: 2.0, ease: "power2.out" }, 4.0);
+    tl.fromTo("#s2-room", { filter: "brightness(2.2)" }, { filter: "brightness(1)", duration: 0.5, ease: "power2.out" }, 4.0);
+    // 6.00 kitchen, mother calm with her back turned
+    cut("#s2-kitchen", "#s2-room", 6.0);
+    tl.fromTo("#s2-kit-cam", { scale: 1.0, y: 0 }, { scale: 1.16, y: 60, duration: 4.6, ease: "none" }, 6.0);
+    tl.fromTo("#s2-steam", { y: 0, opacity: 0.4 }, { y: -80, opacity: 0.9, duration: 4.6, ease: "none" }, 6.0);
+    // she turns her head as she answers
+    tl.fromTo("#s2-mother", { x: 0, scaleX: 1 }, { x: -18, scaleX: 0.96, duration: 0.5, ease: "power2.inOut" }, 8.9);
+    tl.to("#s2-kitchen", { opacity: 0, duration: 0.15, ease: "power1.in" }, 10.45);
+    window.__timelines["s2-reveil"] = tl;
+  </script>
+</template>
