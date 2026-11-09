@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Les Absents — Épisode 1 — 03:17</title>
+    <script src="assets/lib/gsap.min.js"></script>
+    <script type="importmap">
+      { "imports": { "three": "./assets/lib/three.module.min.js" } }
+    </script>
+    <style>
+      :root {
+        --ground: #05070b;
+        --ink: #f4f1ec;
+        --cyan: #9fd3ff;
+        --amber: #ffb36b;
+        --blood: #e2404f;
+        --font-ui: "Inter", sans-serif;
+        --font-title: "Oswald", sans-serif;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--ground);
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--ground);
+        font-family: var(--font-ui);
+        color: var(--ink);
+      }
+      #stage {
+        position: absolute;
+        inset: 0;
+      }
+      #gl {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+      }
+      #grade {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(ellipse 80% 62% at 50% 46%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.62) 100%),
+          linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 14%, rgba(0, 0, 0, 0) 74%, rgba(0, 0, 0, 0.55) 100%);
+        z-index: 5;
+      }
+      .layer {
+        position: absolute;
+        inset: 0;
+      }
+
+      /* S1 lock screen */
+      #lock {
+        z-index: 8;
+      }
+      #lock-dim {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at 50% 40%, rgba(5, 10, 20, 0.35), rgba(0, 0, 0, 0.85));
+      }
+      #lock-device {
+        position: absolute;
+        left: 110px;
+        top: 190px;
+        width: 860px;
+        height: 1360px;
+        border-radius: 96px;
+        background: linear-gradient(170deg, #142338 0%, #0a1220 55%, #05080f 100%);
+        box-shadow:
+          0 0 0 14px #0c0d10,
+          0 0 0 16px #2b2e35,
+          0 0 140px rgba(120, 190, 255, 0.35);
+        overflow: hidden;
+      }
+      #lock-glow {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 50% 18%, rgba(159, 211, 255, 0.28), rgba(0, 0, 0, 0) 60%);
+      }
+      #lock-date {
+        position: absolute;
+        top: 120px;
+        width: 100%;
+        text-align: center;
+        font-size: 38px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        color: rgba(230, 240, 255, 0.85);
+      }
+      #lock-time {
+        position: absolute;
+        top: 160px;
+        width: 100%;
+        text-align: center;
+        font-size: 232px;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        color: #e9f4ff;
+        text-shadow: 0 0 60px rgba(159, 211, 255, 0.45);
+      }
+      .notif {
+        position: absolute;
+        left: 40px;
+        right: 40px;
+        border-radius: 44px;
+        background: rgba(232, 240, 250, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        padding: 30px 34px 34px;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      }
+      .notif-head {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-size: 28px;
+        font-weight: 700;
+        color: rgba(240, 246, 255, 0.75);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .app-ico {
+        width: 54px;
+        height: 54px;
+        border-radius: 14px;
+        background: #e2404f;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 34px;
+        font-weight: 900;
+      }
+      .notif-head .when {
+        margin-left: auto;
+        text-transform: none;
+        letter-spacing: 0;
+        font-weight: 400;
+      }
+      .notif-title {
+        margin-top: 18px;
+        font-size: 40px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .notif-body {
+        margin-top: 10px;
+        font-size: 38px;
+        line-height: 1.28;
+        color: rgba(245, 248, 255, 0.95);
+      }
+      #notif-1 {
+        top: 520px;
+      }
+
+      /* title */
+      #title {
+        z-index: 9;
+      }
+      #title-wrap {
+        position: absolute;
+        top: 236px;
+        width: 100%;
+        text-align: center;
+      }
+      #title-main {
+        font-family: var(--font-title);
+        font-weight: 700;
+        font-size: 108px;
+        letter-spacing: 0.32em;
+        padding-left: 0.32em;
+        color: #f4f1ec;
+        text-shadow: 0 6px 40px rgba(0, 0, 0, 0.8);
+      }
+      #title-sub {
+        margin-top: 10px;
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: 0.4em;
+        padding-left: 0.4em;
+        color: var(--blood);
+      }
+
+      /* missed calls card */
+      #missed {
+        z-index: 9;
+      }
+      #missed-card {
+        top: 1110px;
+        left: 90px;
+        right: 90px;
+        background: rgba(18, 24, 34, 0.82);
+      }
+      .call-ico {
+        background: #2fbf5b;
+      }
+      .big-red {
+        color: #ff6a76;
+        font-weight: 900;
+      }
+
+      /* photo insert */
+      #photo {
+        z-index: 9;
+      }
+      #photo-dim {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+        opacity: 0;
+      }
+      #photo-device {
+        position: absolute;
+        left: 250px;
+        top: 300px;
+        width: 580px;
+        height: 1000px;
+        border-radius: 70px;
+        background: #000;
+        box-shadow:
+          0 0 0 12px #0c0d10,
+          0 0 0 14px #2b2e35,
+          0 40px 120px rgba(0, 0, 0, 0.7);
+        overflow: hidden;
+      }
+      #photo-bar {
+        position: absolute;
+        top: 54px;
+        width: 100%;
+        text-align: center;
+        font-size: 28px;
+        font-weight: 700;
+        color: #fff;
+      }
+      #photo-bar small {
+        display: block;
+        font-size: 22px;
+        font-weight: 400;
+        opacity: 0.7;
+        margin-top: 4px;
+      }
+      .photo-img {
+        position: absolute;
+        left: 0;
+        top: 170px;
+        width: 580px;
+        height: 773px;
+        object-fit: cover;
+      }
+      #photo-slice {
+        position: absolute;
+        left: 0;
+        top: 470px;
+        width: 580px;
+        height: 90px;
+        background: rgba(159, 211, 255, 0.25);
+        mix-blend-mode: screen;
+      }
+
+      /* messages */
+      #msg1,
+      #msg2 {
+        z-index: 9;
+      }
+      .msg-card {
+        position: absolute;
+        left: 70px;
+        right: 70px;
+        border-radius: 44px;
+        background: rgba(16, 20, 28, 0.88);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        padding: 30px 34px 34px;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+      }
+      #msg1-card {
+        top: 900px;
+      }
+      #msg2-card {
+        top: 1000px;
+        border-color: rgba(226, 64, 79, 0.65);
+        box-shadow:
+          0 0 60px rgba(226, 64, 79, 0.35),
+          0 30px 80px rgba(0, 0, 0, 0.6);
+      }
+      .msg-ico {
+        background: #3a8bff;
+      }
+      .msg-text {
+        margin-top: 16px;
+        font-size: 50px;
+        font-weight: 900;
+        letter-spacing: 0.01em;
+        color: #fff;
+      }
+      .attach {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 18px 22px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.08);
+        font-size: 30px;
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .play {
+        width: 0;
+        height: 0;
+        border-left: 30px solid #fff;
+        border-top: 18px solid transparent;
+        border-bottom: 18px solid transparent;
+      }
+      .lina-ico {
+        background: linear-gradient(135deg, #7c2436, #d07f7f);
+      }
+
+      /* the video frame around Lina */
+      #vframe {
+        z-index: 7;
+      }
+      #vwin {
+        position: absolute;
+        left: 150px;
+        top: 250px;
+        width: 780px;
+        height: 1420px;
+        border-radius: 60px;
+        box-shadow:
+          0 0 0 12px #0c0d10,
+          0 0 0 14px #2b2e35,
+          0 0 0 1400px rgba(2, 3, 6, 0.9);
+      }
+      #vtop {
+        position: absolute;
+        left: 150px;
+        top: 250px;
+        width: 780px;
+        padding: 34px 40px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        font-size: 28px;
+        font-weight: 700;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
+        border-radius: 60px 60px 0 0;
+      }
+      .rec {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #ff3b47;
+      }
+      #vtop .ts {
+        margin-left: auto;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 400;
+        opacity: 0.85;
+      }
+      #vbar {
+        position: absolute;
+        left: 200px;
+        width: 680px;
+        top: 1600px;
+        height: 8px;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.25);
+        overflow: hidden;
+      }
+      #vbar-fill {
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        transform-origin: 0 50%;
+      }
+
+      /* black + vote */
+      #blackout {
+        z-index: 10;
+        background: #000;
+      }
+      #vote {
+        z-index: 11;
+      }
+      #vote-shade {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.9));
+      }
+      #vote-head {
+        position: absolute;
+        top: 250px;
+        width: 100%;
+        text-align: center;
+        font-family: var(--font-title);
+        font-weight: 700;
+        font-size: 96px;
+        letter-spacing: 0.08em;
+        color: #fff;
+      }
+      .choice {
+        position: absolute;
+        left: 90px;
+        right: 90px;
+        height: 230px;
+        border-radius: 34px;
+        display: flex;
+        align-items: center;
+        gap: 34px;
+        padding: 0 44px;
+        background: rgba(12, 16, 24, 0.86);
+        border: 3px solid rgba(255, 255, 255, 0.2);
+      }
+      #choice-a {
+        top: 430px;
+        border-color: rgba(255, 179, 107, 0.85);
+      }
+      #choice-b {
+        top: 700px;
+        border-color: rgba(159, 211, 255, 0.85);
+      }
+      .letter {
+        flex: none;
+        width: 130px;
+        height: 130px;
+        border-radius: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-title);
+        font-size: 96px;
+        font-weight: 700;
+        color: #05070b;
+      }
+      #choice-a .letter {
+        background: var(--amber);
+      }
+      #choice-b .letter {
+        background: var(--cyan);
+      }
+      .choice-t {
+        font-size: 50px;
+        font-weight: 900;
+        letter-spacing: 0.01em;
+      }
+      .choice-s {
+        margin-top: 8px;
+        font-size: 32px;
+        line-height: 1.25;
+        color: rgba(240, 240, 240, 0.85);
+      }
+      #vote-cta {
+        position: absolute;
+        top: 975px;
+        width: 100%;
+        text-align: center;
+        font-size: 40px;
+        font-weight: 700;
+        line-height: 1.35;
+        color: #fff;
+      }
+      #vote-cta b {
+        color: var(--blood);
+      }
+      #logo {
+        position: absolute;
+        top: 1130px;
+        width: 100%;
+        text-align: center;
+      }
+      #logo-t {
+        font-family: var(--font-title);
+        font-weight: 700;
+        font-size: 92px;
+        letter-spacing: 0.3em;
+        padding-left: 0.3em;
+      }
+      #logo-s {
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: 0.36em;
+        padding-left: 0.36em;
+        color: var(--blood);
+        margin-top: 6px;
+      }
+
+      /* subtitles */
+      .sub {
+        z-index: 12;
+        position: absolute;
+        left: 70px;
+        right: 70px;
+        top: 1120px;
+        height: 210px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        text-align: center;
+      }
+      .sub span {
+        display: inline-block;
+        font-size: 50px;
+        line-height: 1.22;
+        font-weight: 700;
+        color: #fff;
+        padding: 10px 22px;
+        border-radius: 14px;
+        background: rgba(0, 0, 0, 0.5);
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+      }
+      .sub-mere span {
+        color: #ffe2c4;
+        font-style: italic;
+      }
+      .sub-lina span {
+        color: #e9f4ff;
+      }
+      .sub-pere span {
+        color: #fff4e0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="60" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="60" data-track-index="0">
+        <canvas id="gl" width="1080" height="1920"></canvas>
+      </div>
+      <div id="grade" class="clip" data-start="0" data-duration="60" data-track-index="1"></div>
+
+      <!-- S1: 03:17 lock screen -->
+      <div id="lock" class="clip layer" data-start="0" data-duration="4.05" data-track-index="2">
+        <div id="lock-dim"></div>
+        <div id="lock-device">
+          <div id="lock-glow"></div>
+          <div id="lock-date">mardi 11 novembre</div>
+          <div id="lock-time">03:17</div>
+          <div id="notif-1" class="notif">
+            <div class="notif-head"><div class="app-ico">!</div>Alerte · Saint-Elmas<span class="when">maintenant</span></div>
+            <div class="notif-title">Avis de retrait</div>
+            <div class="notif-body">Une personne vient d'être retirée de votre existence. Merci de ne pas chercher à vous souvenir d'elle.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- title -->
+      <div id="title" class="clip layer" data-start="4.15" data-duration="2.6" data-track-index="3">
+        <div id="title-wrap">
+          <div id="title-main">LES ABSENTS</div>
+          <div id="title-sub">ÉPISODE 1 · 03:17</div>
+        </div>
+      </div>
+
+      <!-- 37 missed calls -->
+      <div id="missed" class="clip layer" data-start="6.75" data-duration="1.65" data-track-index="4">
+        <div id="missed-card" class="notif">
+          <div class="notif-head"><div class="app-ico call-ico">✆</div>Téléphone<span class="when">06:42</span></div>
+          <div class="notif-title"><span class="big-red">37 appels manqués</span></div>
+          <div class="notif-body">Numéro inconnu</div>
+        </div>
+      </div>
+
+      <!-- the photo that changed -->
+      <div id="photo" class="clip layer" data-start="15.9" data-duration="3.7" data-track-index="5">
+        <div id="photo-dim"></div>
+        <div id="photo-device">
+          <div id="photo-bar">Photos<small>14 août · Noé &amp; Lina</small></div>
+          <img id="photo-alone" class="photo-img" alt="Noé seul" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" />
+          <img id="photo-both" class="photo-img" alt="Noé et Lina" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" />
+          <div id="photo-slice"></div>
+        </div>
+      </div>
+
+      <!-- REGARDE LA VIDÉO -->
+      <div id="msg1" class="clip layer" data-start="27.8" data-duration="2.25" data-track-index="6">
+        <div id="msg1-card" class="msg-card">
+          <div class="notif-head"><div class="app-ico msg-ico">✉</div>Numéro inconnu<span class="when">maintenant</span></div>
+          <div class="msg-text">REGARDE LA VIDÉO.</div>
+          <div class="attach"><div class="play"></div>VID_0251.mp4 · 0:14</div>
+        </div>
+      </div>
+
+      <!-- Lina's video, seen through the phone -->
+      <div id="vframe" class="clip layer" data-start="30" data-duration="14" data-track-index="7">
+        <div id="vwin"></div>
+        <div id="vtop"><div class="rec"></div>Lina<span class="ts">02:51:08</span></div>
+        <div id="vbar"><div id="vbar-fill"></div></div>
+      </div>
+
+      <!-- NE LUI FAIS PAS CONFIANCE -->
+      <div id="msg2" class="clip layer" data-start="52.65" data-duration="1.4" data-track-index="8">
+        <div id="msg2-card" class="msg-card">
+          <div class="notif-head"><div class="app-ico lina-ico">L</div>Lina<span class="when">maintenant</span></div>
+          <div class="msg-text">NOÉ, NE LUI FAIS PAS CONFIANCE.</div>
+        </div>
+      </div>
+
+      <div id="blackout" class="clip layer" data-start="54" data-duration="6" data-track-index="9"></div>
+
+      <!-- vote -->
+      <div id="vote" class="clip layer" data-start="54.6" data-duration="5.4" data-track-index="11">
+        <div id="vote-shade"></div>
+        <div id="vote-head">VOUS DEVEZ CHOISIR</div>
+        <div id="choice-a" class="choice">
+          <div class="letter">A</div>
+          <div><div class="choice-t">OUVRIR LA PORTE</div><div class="choice-s">Noé fait confiance à sa mère.</div></div>
+        </div>
+        <div id="choice-b" class="choice">
+          <div class="letter">B</div>
+          <div><div class="choice-t">S'ENFUIR</div><div class="choice-s">Noé croit le message de Lina et s'échappe.</div></div>
+        </div>
+        <div id="vote-cta">Commentez <b>A</b> ou <b>B</b>.<br />Le vote majoritaire décidera de l'épisode 2.</div>
+        <div id="logo">
+          <div id="logo-t">LES ABSENTS</div>
+          <div id="logo-s">ÉPISODE 1/14</div>
+        </div>
+      </div>
+
+      <!-- SUBS:BEGIN -->
+      <div id="sub-l01" class="clip sub sub-mere" data-start="0.9" data-duration="2.873" data-track-index="10"><span>Si tu te souviens d'elle… tu es déjà en danger.</span></div>
+      <div id="sub-l02" class="clip sub sub-noe" data-start="9.2" data-duration="0.893" data-track-index="10"><span>Lina ?</span></div>
+      <div id="sub-l03" class="clip sub sub-noe" data-start="11.3" data-duration="2.692" data-track-index="10"><span>Maman ! Elle est où, Lina ?</span></div>
+      <div id="sub-l04" class="clip sub sub-mere" data-start="13.75" data-duration="1.181" data-track-index="10"><span>De qui tu parles ?</span></div>
+      <div id="sub-l05" class="clip sub sub-noe" data-start="16.4" data-duration="2.875" data-track-index="10"><span>Regarde ! Elle était là… hier !</span></div>
+      <div id="sub-l06" class="clip sub sub-pere" data-start="22.3" data-duration="2.805" data-track-index="10"><span>Noé… Tu es fils unique.</span></div>
+      <div id="sub-l07" class="clip sub sub-lina" data-start="30.6" data-duration="5.624" data-track-index="10"><span>Noé… si tu regardes cette vidéo… ne fais confiance à personne qui se souvient de moi.</span></div>
+      <div id="sub-l08" class="clip sub sub-lina" data-start="36.45" data-duration="4.488" data-track-index="10"><span>Je sais que tu vas essayer de me retrouver. Mais écoute-moi bien…</span></div>
+      <div id="sub-l09" class="clip sub sub-lina" data-start="40.9" data-duration="3.245" data-track-index="10"><span>Cette fois… ne leur ouvre surtout pas la porte.</span></div>
+      <div id="sub-l10" class="clip sub sub-mere" data-start="48.7" data-duration="3.166" data-track-index="10"><span>Mon chéri… tu n'aurais jamais dû te souvenir d'elle.</span></div>
+      <!-- SUBS:END -->
+
+      <!-- VO:BEGIN -->
+      <audio id="vo-l01" class="clip" src="assets/audio/L01.m4a" data-start="0.9" data-duration="2.523" data-track-index="20" data-volume="1"></audio>
+      <audio id="vo-l02" class="clip" src="assets/audio/L02.m4a" data-start="9.2" data-duration="0.543" data-track-index="21" data-volume="1"></audio>
+      <audio id="vo-l03" class="clip" src="assets/audio/L03.m4a" data-start="11.3" data-duration="2.342" data-track-index="22" data-volume="1"></audio>
+      <audio id="vo-l04" class="clip" src="assets/audio/L04.m4a" data-start="13.75" data-duration="0.831" data-track-index="23" data-volume="1"></audio>
+      <audio id="vo-l05" class="clip" src="assets/audio/L05.m4a" data-start="16.4" data-duration="2.525" data-track-index="24" data-volume="1"></audio>
+      <audio id="vo-l06" class="clip" src="assets/audio/L06.m4a" data-start="22.3" data-duration="2.455" data-track-index="25" data-volume="1"></audio>
+      <audio id="vo-l07" class="clip" src="assets/audio/L07.m4a" data-start="30.6" data-duration="5.274" data-track-index="26" data-volume="1"></audio>
+      <audio id="vo-l08" class="clip" src="assets/audio/L08.m4a" data-start="36.45" data-duration="4.138" data-track-index="27" data-volume="1"></audio>
+      <audio id="vo-l09" class="clip" src="assets/audio/L09.m4a" data-start="40.9" data-duration="2.895" data-track-index="28" data-volume="1"></audio>
+      <audio id="vo-l10" class="clip" src="assets/audio/L10.m4a" data-start="48.7" data-duration="2.816" data-track-index="29" data-volume="1"></audio>
+      <!-- VO:END -->
+
+      <!-- SFX:BEGIN -->
+      <audio id="sfx-drone-a" class="clip" src="assets/sfx/drone.m4a" data-start="0.0" data-duration="44.2" data-track-index="40" data-volume="0.55"></audio>
+      <audio id="sfx-vibrate-1" class="clip" src="assets/sfx/vibrate.m4a" data-start="0.0" data-duration="1.9" data-track-index="41" data-volume="0.9"></audio>
+      <audio id="sfx-vibrate-2" class="clip" src="assets/sfx/vibrate.m4a" data-start="1.9" data-duration="1.9" data-track-index="42" data-volume="0.8"></audio>
+      <audio id="sfx-buzz-1" class="clip" src="assets/sfx/buzz_short.m4a" data-start="6.75" data-duration="0.5" data-track-index="43" data-volume="0.7"></audio>
+      <audio id="sfx-glitch" class="clip" src="assets/sfx/glitch.m4a" data-start="17.2" data-duration="0.55" data-track-index="44" data-volume="0.8"></audio>
+      <audio id="sfx-heart" class="clip" src="assets/sfx/heartbeat.m4a" data-start="25.0" data-duration="2.6" data-track-index="45" data-volume="0.9"></audio>
+      <audio id="sfx-buzz-2" class="clip" src="assets/sfx/buzz_short.m4a" data-start="27.8" data-duration="0.5" data-track-index="46" data-volume="0.8"></audio>
+      <audio id="sfx-vidhiss" class="clip" src="assets/sfx/vidhiss.m4a" data-start="30.0" data-duration="14.0" data-track-index="47" data-volume="0.8"></audio>
+      <audio id="sfx-knock-1" class="clip" src="assets/sfx/knock.m4a" data-start="44.25" data-duration="0.7" data-track-index="48" data-volume="1.0"></audio>
+      <audio id="sfx-knock-2" class="clip" src="assets/sfx/knock.m4a" data-start="44.85" data-duration="0.7" data-track-index="49" data-volume="1.0"></audio>
+      <audio id="sfx-knock-3" class="clip" src="assets/sfx/knock.m4a" data-start="45.45" data-duration="0.7" data-track-index="50" data-volume="1.0"></audio>
+      <audio id="sfx-drone-b" class="clip" src="assets/sfx/drone.m4a" data-start="46.4" data-duration="7.6" data-track-index="51" data-volume="0.45"></audio>
+      <audio id="sfx-riser" class="clip" src="assets/sfx/riser.m4a" data-start="51.0" data-duration="3.0" data-track-index="52" data-volume="0.7"></audio>
+      <audio id="sfx-buzz-3" class="clip" src="assets/sfx/buzz_short.m4a" data-start="52.65" data-duration="0.5" data-track-index="53" data-volume="0.8"></audio>
+      <audio id="sfx-boom" class="clip" src="assets/sfx/boom.m4a" data-start="54.0" data-duration="4.5" data-track-index="54" data-volume="1.0"></audio>
+      <audio id="sfx-votebed" class="clip" src="assets/sfx/votebed.m4a" data-start="54.6" data-duration="5.4" data-track-index="55" data-volume="0.6"></audio>
+      <!-- SFX:END -->
+    </div>
+
+    <script src="assets/timing.js"></script>
+    <script>
+      // 3D build gate: the renderer waits on this promise before capturing frames.
+      window.__hf = window.__hf || {};
+      window.__hf.buildReady = window.__hf.buildReady || {};
+      (function () {
+        let resolveBuild;
+        window.__hf.buildReady["absents-3d"] = new Promise((r) => (resolveBuild = r));
+        window.__absentsBuild = (p) => p.then(resolveBuild, (e) => {
+          console.error(e);
+          resolveBuild();
+        });
+      })();
+    </script>
+    <script type="module" src="assets/scene.js"></script>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // S1 — phone buzzes, notification drops in
+      const buzz = [];
+      for (let i = 0; i < 24; i++) buzz.push({ x: i % 2 ? -7 : 7, rotation: i % 2 ? -0.5 : 0.5, duration: 0.035 });
+      tl.to("#lock-device", { keyframes: buzz, ease: "none" }, 0.0);
+      tl.to("#lock-device", { x: 0, rotation: 0, duration: 0.05 }, 0.86);
+      tl.to("#lock-device", { keyframes: buzz.slice(0, 16), ease: "none" }, 1.9);
+      tl.to("#lock-device", { x: 0, rotation: 0, duration: 0.05 }, 2.48);
+      tl.fromTo("#notif-1", { y: -90, opacity: 0, scale: 0.94 }, { y: 0, opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.4)" }, 0.35);
+      tl.fromTo("#lock-device", { scale: 1 }, { scale: 1.06, duration: 3.6, ease: "none" }, 0.2);
+      tl.to("#lock", { opacity: 0, duration: 0.25, ease: "power2.in" }, 3.8);
+
+      // title
+      tl.fromTo("#title-main", { opacity: 0, scale: 1.12 }, { opacity: 1, scale: 1, duration: 1.0, ease: "power3.out" }, 4.15);
+      tl.fromTo("#title-sub", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 4.55);
+      tl.to("#title-wrap", { opacity: 0, duration: 0.4, ease: "power2.in" }, 6.3);
+
+      // 37 missed calls
+      tl.fromTo("#missed-card", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 6.8);
+      tl.to("#missed-card", { opacity: 0, duration: 0.2 }, 8.15);
+
+      // photo: Lina is there… then she is not
+      tl.fromTo("#photo-device", { y: 220, opacity: 0, rotation: -3 }, { y: 0, opacity: 1, rotation: 0, duration: 0.45, ease: "power3.out" }, 15.9);
+      tl.fromTo("#photo-dim", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 15.9);
+      tl.set("#photo-both", { opacity: 1 }, 15.9);
+      tl.fromTo("#photo-slice", { opacity: 0 }, { opacity: 0, duration: 0.01 }, 15.9);
+      const glitch = [17.2, 17.28, 17.36, 17.46, 17.52, 17.62];
+      glitch.forEach((g, i) => {
+        tl.set("#photo-both", { opacity: i % 2 ? 1 : 0, x: i % 2 ? 0 : (i - 2) * 9 }, g);
+        tl.set("#photo-slice", { opacity: i % 2 ? 0 : 1, y: (i * 137) % 400 - 200 }, g);
+      });
+      tl.set("#photo-both", { opacity: 0, x: 0 }, 17.7);
+      tl.set("#photo-slice", { opacity: 0 }, 17.7);
+      tl.to("#photo-device", { y: 160, opacity: 0, duration: 0.3, ease: "power2.in" }, 19.25);
+      tl.to("#photo-dim", { opacity: 0, duration: 0.3 }, 19.25);
+
+      // REGARDE LA VIDÉO
+      tl.fromTo("#msg1-card", { y: -80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "back.out(1.5)" }, 27.85);
+      tl.to("#msg1-card", { scale: 1.04, duration: 0.25, yoyo: true, repeat: 1, ease: "sine.inOut" }, 28.6);
+      tl.to("#msg1-card", { opacity: 0, scale: 0.9, duration: 0.25, ease: "power2.in" }, 29.75);
+
+      // Lina's video frame
+      tl.fromTo("#vframe", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 30.0);
+      tl.fromTo("#vbar-fill", { scaleX: 0 }, { scaleX: 1, duration: 14, ease: "none" }, 30.0);
+      tl.to(".rec", { opacity: 0.2, duration: 0.5, repeat: 13, yoyo: true, ease: "steps(1)" }, 30.0);
+      tl.to("#vframe", { opacity: 0, duration: 0.12 }, 43.88);
+
+      // NE LUI FAIS PAS CONFIANCE
+      tl.fromTo("#msg2-card", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25, ease: "power3.out" }, 52.7);
+      tl.to("#msg2-card", { x: 6, duration: 0.04, repeat: 5, yoyo: true }, 53.1);
+
+      // blackout, then the vote over the door
+      tl.fromTo("#blackout", { opacity: 1 }, { opacity: 0.0, duration: 0.8, ease: "power2.out" }, 54.6);
+      tl.fromTo("#vote-head", { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power4.out" }, 54.65);
+      tl.fromTo("#choice-a", { x: -120, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 55.3);
+      tl.fromTo("#choice-b", { x: 120, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 55.6);
+      tl.fromTo("#vote-cta", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 56.3);
+      tl.fromTo("#logo", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power2.out" }, 57.2);
+
+      // subtitles: quick fade in
+      document.querySelectorAll(".sub span").forEach((el) => {
+        const host = el.parentElement;
+        const s = parseFloat(host.dataset.start);
+        tl.fromTo(el, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.18, ease: "power2.out" }, s);
+      });
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

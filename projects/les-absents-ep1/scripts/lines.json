@@ -1,0 +1,120 @@
+{
+  "voices": {
+    "noe": {
+      "elevenlabs": "IRU6KGLRERRDMA2e269I",
+      "edge": "fr-FR-RemyMultilingualNeural",
+      "edgeRate": "-4%",
+      "edgePitch": "+0Hz"
+    },
+    "lina": {
+      "elevenlabs": "FvmvwvObRqIHojkEGh5N",
+      "edge": "fr-FR-EloiseNeural",
+      "edgeRate": "-8%",
+      "edgePitch": "+0Hz"
+    },
+    "mere": {
+      "elevenlabs": "WeAAwKYcS06VmXw086yZ",
+      "edge": "fr-FR-VivienneMultilingualNeural",
+      "edgeRate": "-10%",
+      "edgePitch": "-2Hz"
+    },
+    "pere": {
+      "elevenlabs": "XfZrgNZ4gYaZ7nOrzWtG",
+      "edge": "fr-FR-HenriNeural",
+      "edgeRate": "-8%",
+      "edgePitch": "-4Hz"
+    }
+  },
+  "lines": [
+    {
+      "id": "L01",
+      "who": "mere",
+      "start": 0.9,
+      "slot": 3.0,
+      "v3": "[whispers]",
+      "stability": 0.35,
+      "text": "Si tu te souviens d'elle… tu es déjà en danger."
+    },
+    {
+      "id": "L02",
+      "who": "noe",
+      "start": 9.2,
+      "slot": 1.6,
+      "v3": "[worried]",
+      "stability": 0.4,
+      "text": "Lina ?"
+    },
+    {
+      "id": "L03",
+      "who": "noe",
+      "start": 11.3,
+      "slot": 2.3,
+      "v3": "[panicked]",
+      "stability": 0.35,
+      "text": "Maman ! Elle est où, Lina ?"
+    },
+    {
+      "id": "L04",
+      "who": "mere",
+      "start": 13.75,
+      "slot": 1.8,
+      "v3": "[calmly]",
+      "stability": 0.6,
+      "text": "De qui tu parles ?"
+    },
+    {
+      "id": "L05",
+      "who": "noe",
+      "start": 16.4,
+      "slot": 3.4,
+      "v3": "[desperate]",
+      "stability": 0.35,
+      "text": "Regarde ! Elle était là… hier !"
+    },
+    {
+      "id": "L06",
+      "who": "pere",
+      "start": 22.3,
+      "slot": 3.0,
+      "v3": "[gently]",
+      "stability": 0.55,
+      "text": "Noé… Tu es fils unique."
+    },
+    {
+      "id": "L07",
+      "who": "lina",
+      "start": 30.6,
+      "slot": 5.6,
+      "v3": "[crying]",
+      "stability": 0.35,
+      "text": "Noé… si tu regardes cette vidéo… ne fais confiance à personne qui se souvient de moi."
+    },
+    {
+      "id": "L08",
+      "who": "lina",
+      "start": 36.45,
+      "slot": 3.9,
+      "v3": "[sobbing softly]",
+      "stability": 0.35,
+      "text": "Je sais que tu vas essayer de me retrouver. Mais écoute-moi bien…"
+    },
+    {
+      "id": "L09",
+      "who": "lina",
+      "start": 40.9,
+      "slot": 3.2,
+      "v3": "[terrified whisper]",
+      "stability": 0.35,
+      "text": "Cette fois… ne leur ouvre surtout pas la porte."
+    },
+    {
+      "id": "L10",
+      "who": "mere",
+      "start": 48.7,
+      "slot": 3.6,
+      "v3": "[whispers]",
+      "stability": 0.4,
+      "text": "Mon chéri… tu n'aurais jamais dû te souvenir d'elle."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+renders/
+.hyperframes/
+scripts/.raw/
+node_modules/
+# heavy binaries are rebuilt by the scripts (see README.md)
+assets/characters/*/*.fbx
+assets/characters/*/*.jpg
+assets/characters/*/*.png
+assets/sfx/
+assets/audio/
