@@ -1,0 +1,67 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: #000; overflow: hidden; }
+    #s4-cv { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+
+  </style>
+  <div id="root" data-composition-id="s4" data-width="1080" data-height="1920" data-duration="17">
+    <canvas id="s4-cv" width="1080" height="1920"></canvas>
+
+  </div>
+  <script>
+    (function () {
+      const N = window.Noir;
+      const ctx = document.getElementById("s4-cv").getContext("2d");
+      const st = { t: 0 };
+      function draw(t) {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.filter = "none";
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, 0, 1080, 1920);
+        const k = N.smooth(12, 16.6, t);
+        const zoom = t < 12 ? 1 + t * 0.008 : N.lerp(1.096, 1.9, k);
+        const cx = 600;
+        const cy = 1390;
+        const cu = N.streetU(cy);
+        const fx = N.lerp(560, cx, k);
+        const fy = N.lerp(980, 1150, k);
+        ctx.translate(540 + N.wob(t * 0.6, 2) * 5, 960 + N.wob(t * 0.5, 6) * 5);
+        ctx.scale(zoom, zoom);
+        ctx.translate(-fx, -fy);
+        const flick = t > 13 && t < 16 ? (N.hash(Math.floor(t * 18)) > 0.35 ? 1 : 0.3) : 1;
+        N.drawStreet(ctx, t, { flick });
+        // the woman, running down the road through the light, past it
+        const wk = N.clamp((t - 3.6) / 7.4);
+        if (wk > 0 && wk < 1) {
+          const wy = N.lerp(450, 2050, wk * wk * 0.3 + wk * 0.7);
+          const wu = N.streetU(wy);
+          const wx = 540 + 2.0 * wu + Math.sin(t * 3) * 4;
+          const lit = Math.max(0, 1 - Math.hypot((wx - N.POOL.x) / 640, (wy - N.POOL.y) / 320));
+          N.drawWoman(ctx, wx, wy, wu, t * 15, lit);
+        }
+        // the creature's shadow falls toward us, away from the light
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(0.25);
+        ctx.scale(0.35, 1);
+        N.glow(ctx, 0, 1.4 * cu, 1.6 * cu, [0, 0, 0], 0.8 * flick);
+        ctx.restore();
+        N.drawCreature(ctx, cx, cy, cu, { turn: N.smooth(13, 15.8, t), rimA: 0.75 * flick, rimC: [255, 175, 95] });
+        N.rain(ctx, t, { count: 220, len: 36, alpha: 0.13, speed: 1700, seed: 41 });
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        N.drawGlass(ctx, t);
+        const v = ctx.createRadialGradient(560, 800, 200, 540, 960, 1300);
+        v.addColorStop(0, "rgba(0,0,0,0)");
+        v.addColorStop(1, "rgba(0,0,0,0.75)");
+        ctx.fillStyle = v;
+        ctx.fillRect(0, 0, 1080, 1920);
+      }
+      const tl = gsap.timeline({ paused: true });
+      tl.to(st, { t: 17, duration: 17, ease: "none", onUpdate: () => draw(st.t) }, 0);
+
+      draw(0);
+      window.__timelines["s4"] = tl;
+    })();
+  </script>
+</template>

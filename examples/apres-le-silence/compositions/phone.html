@@ -1,0 +1,155 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Inter", sans-serif; }
+    #ph-rig { position: absolute; left: 240px; top: 300px; width: 600px; height: 1230px; opacity: 0; }
+    #ph-glow {
+      position: absolute; left: -500px; top: -420px; width: 1600px; height: 2070px;
+      background: radial-gradient(closest-side, rgba(110,145,255,0.22), rgba(110,145,255,0.06) 55%, rgba(110,145,255,0) 100%);
+    }
+    #ph-body {
+      position: absolute; inset: 0; border-radius: 88px; background: #050506;
+      border: 3px solid #2b2d33; box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+    }
+    #ph-screen {
+      position: absolute; left: 14px; top: 14px; width: 566px; height: 1196px; border-radius: 74px; overflow: hidden;
+      background: linear-gradient(170deg, #1b2236 0%, #0f1220 45%, #191020 100%);
+      color: #f2f2f5;
+    }
+    .ph-layer { position: absolute; inset: 0; }
+    .ph-status { position: absolute; top: 34px; left: 60px; right: 52px; display: flex; justify-content: space-between; font-size: 28px; font-weight: 700; }
+    #ph-island { position: absolute; top: 26px; left: 203px; width: 160px; height: 46px; border-radius: 24px; background: #000; }
+    #ph-date { position: absolute; top: 130px; width: 100%; text-align: center; font-size: 32px; font-weight: 700; color: rgba(240,240,250,0.85); }
+    .ph-clock { position: absolute; top: 160px; width: 100%; text-align: center; font-size: 190px; font-weight: 400; letter-spacing: -6px; }
+    .ph-notif {
+      position: absolute; left: 18px; width: 530px; top: 440px; padding: 22px 24px 24px; border-radius: 36px;
+      background: rgba(28,28,34,0.9); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .ph-nh { white-space: nowrap; display: flex; align-items: center; gap: 12px; font-size: 28px; font-weight: 700; color: #ff6a5c; }
+    .ph-nh svg { width: 36px; height: 36px; flex: none; }
+    .ph-nh .ph-now { margin-left: auto; color: rgba(235,235,245,0.6); font-weight: 400; }
+    .ph-nt { margin-top: 10px; font-size: 34px; font-weight: 900; line-height: 1.12; color: #fff; }
+    .ph-nb { margin-top: 6px; font-size: 30px; font-weight: 700; line-height: 1.2; color: #f4f4f8; }
+    #ph-flash { position: absolute; bottom: 70px; left: 70px; width: 90px; height: 90px; border-radius: 50%; background: rgba(40,40,48,0.7); }
+    #ph-cam { position: absolute; bottom: 70px; right: 70px; width: 90px; height: 90px; border-radius: 50%; background: rgba(40,40,48,0.7); }
+    #ph-in, #ph-call { opacity: 0; background: linear-gradient(180deg, #23252c 0%, #121318 60%, #0b0b0e 100%); }
+    .ph-caller { position: absolute; top: 190px; width: 100%; text-align: center; font-size: 56px; font-weight: 400; }
+    .ph-sub { position: absolute; top: 268px; width: 100%; text-align: center; font-size: 30px; color: rgba(235,235,245,0.65); }
+    #ph-avatar { position: absolute; top: 380px; left: 193px; width: 180px; height: 180px; border-radius: 50%; background: #3a3c44; overflow: hidden; }
+    #ph-avatar i { position: absolute; left: 55px; top: 32px; width: 70px; height: 70px; border-radius: 50%; background: #9a9ca6; }
+    #ph-avatar b { position: absolute; left: 25px; top: 115px; width: 130px; height: 120px; border-radius: 50%; background: #9a9ca6; }
+    .ph-btn { position: absolute; top: 900px; width: 140px; height: 140px; border-radius: 50%; }
+    .ph-lbl { position: absolute; top: 1056px; width: 200px; text-align: center; font-size: 28px; color: rgba(240,240,248,0.85); }
+    #ph-decline { left: 70px; background: #eb4b3d; }
+    #ph-accept { right: 70px; background: #35c759; }
+    #ph-grid { position: absolute; top: 470px; left: 58px; width: 450px; display: grid; grid-template-columns: repeat(3, 130px); gap: 40px 30px; }
+    #ph-grid div { width: 130px; height: 130px; border-radius: 50%; background: rgba(255,255,255,0.12); }
+    #ph-end { position: absolute; top: 960px; left: 213px; width: 140px; height: 140px; border-radius: 50%; background: #eb4b3d; }
+    #ph-timer { font-size: 36px; }
+    #ph-banner { position: absolute; left: 18px; width: 530px; top: 110px; opacity: 0; background: #1d1d23; }
+  </style>
+  <div id="root" data-composition-id="phone" data-width="1080" data-height="1920" data-duration="50.2">
+    <div id="ph-rig">
+      <div id="ph-glow" data-layout-allow-overflow></div>
+      <div id="ph-body">
+        <div id="ph-screen">
+          <div id="ph-lock" class="ph-layer">
+            <div class="ph-status" data-layout-allow-overlap><span id="ph-carrier-a">● ● ● ●</span><span>23 %</span></div>
+            <div class="ph-status" id="ph-sos" data-layout-allow-overlap style="opacity: 0"><span>SOS uniquement</span><span>23 %</span></div>
+            <div id="ph-date">mardi 14 novembre</div>
+            <div class="ph-clock" id="ph-t16">03:16</div>
+            <div class="ph-clock" id="ph-t17" style="opacity: 0">03:17</div>
+            <div class="ph-notif" id="ph-n1" style="opacity: 0">
+              <div class="ph-nh">
+                <svg viewBox="0 0 24 24"><path d="M12 2 1 21h22L12 2z" fill="#ff453a" /><path d="M11 9h2v6h-2zm0 8h2v2h-2z" fill="#fff" /></svg>
+                <span>ALERTE D'URGENCE</span><span class="ph-now">maint.</span>
+              </div>
+              <div class="ph-nt">ALERTE MONDIALE</div>
+              <div class="ph-nb">NE REGARDEZ PAS DEHORS.</div>
+            </div>
+            <div class="ph-notif" id="ph-n2" style="opacity: 0">
+              <div class="ph-nh">
+                <svg viewBox="0 0 24 24"><path d="M12 2 1 21h22L12 2z" fill="#ff453a" /><path d="M11 9h2v6h-2zm0 8h2v2h-2z" fill="#fff" /></svg>
+                <span>ALERTE D'URGENCE</span><span class="ph-now">maint.</span>
+              </div>
+              <div class="ph-nt">SI VOUS ENTENDEZ QUELQU'UN VOUS APPELER, NE RÉPONDEZ PAS.</div>
+            </div>
+            <div id="ph-flash"></div>
+            <div id="ph-cam"></div>
+          </div>
+          <div id="ph-in" class="ph-layer">
+            <div class="ph-caller">Numéro inconnu</div>
+            <div class="ph-sub">appel mobile…</div>
+            <div id="ph-avatar"><i></i><b></b></div>
+            <div class="ph-btn" id="ph-decline"></div>
+            <div class="ph-btn" id="ph-accept"></div>
+            <div class="ph-lbl" style="left: 40px">Refuser</div>
+            <div class="ph-lbl" style="right: 40px">Accepter</div>
+          </div>
+          <div id="ph-call" class="ph-layer">
+            <div class="ph-caller" data-layout-allow-overlap>Numéro inconnu</div>
+            <div class="ph-sub" id="ph-timer">00:00</div>
+            <div id="ph-grid"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div id="ph-end"></div>
+            <div class="ph-notif" id="ph-banner" data-layout-allow-overlap>
+              <div class="ph-nh">
+                <svg viewBox="0 0 24 24"><path d="M12 2 1 21h22L12 2z" fill="#ff453a" /><path d="M11 9h2v6h-2zm0 8h2v2h-2z" fill="#fff" /></svg>
+                <span>ALERTE D'URGENCE</span><span class="ph-now">maint.</span>
+              </div>
+              <div class="ph-nt">IL EST DÉJÀ À L'INTÉRIEUR.</div>
+            </div>
+          </div>
+          <div id="ph-island"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const rig = "#ph-rig";
+      // shot A: close-up on the lock screen (abs 8.6 → 20.0)
+      tl.set(rig, { opacity: 1, x: 0, y: 0, scale: 1, rotation: -2 }, 0);
+      tl.fromTo(rig, { x: 0, y: 30, rotation: -2 }, { x: 10, y: 0, rotation: 1, duration: 8.8, ease: "sine.inOut" }, 0);
+      const buzz = (at) => {
+        tl.to("#ph-body", { keyframes: { x: [0, -7, 7, -6, 6, -4, 4, 0] }, duration: 0.42, ease: "none" }, at);
+        tl.to("#ph-body", { keyframes: { x: [0, -7, 7, -6, 6, -4, 4, 0] }, duration: 0.42, ease: "none" }, at + 0.62);
+      };
+      buzz(0.4);
+      tl.fromTo("#ph-n1", { opacity: 0, y: -60, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.4)" }, 0.6);
+      // the lights die (abs 15.0): the room glow behind the phone tightens and brightens
+      tl.fromTo("#ph-glow", { opacity: 0.6 }, { opacity: 1, duration: 0.2 }, 6.4);
+      tl.set("#ph-carrier-a", { opacity: 0 }, 6.6);
+      tl.set("#ph-sos", { opacity: 1 }, 6.6);
+      tl.set("#ph-t16", { opacity: 0 }, 6.8);
+      tl.set("#ph-t17", { opacity: 1 }, 6.8);
+      buzz(8.4);
+      tl.to("#ph-n1", { y: 250, duration: 0.4, ease: "power3.out" }, 8.6);
+      tl.fromTo("#ph-n2", { opacity: 0, y: -60, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.4)" }, 8.6);
+      tl.to(rig, { scale: 1.06, y: 40, duration: 2.6, ease: "sine.inOut" }, 8.8);
+      tl.set(rig, { opacity: 0 }, 11.4);
+      // shot B: unknown number calling (abs 45.9 → 55.0)
+      tl.set("#ph-lock", { opacity: 0 }, 37.3);
+      tl.set("#ph-in", { opacity: 1 }, 37.3);
+      tl.set(rig, { opacity: 1, x: 0, y: 0, scale: 1, rotation: 2 }, 37.3);
+      tl.fromTo(rig, { y: 60, rotation: 3 }, { y: 0, rotation: -1, duration: 2.4, ease: "power2.out" }, 37.3);
+      tl.fromTo("#ph-accept", { scale: 1 }, { keyframes: { scale: [1, 1.08, 1, 1.08, 1, 1.08, 1] }, duration: 2.6, ease: "none" }, 37.4);
+      tl.to("#ph-accept", { scale: 0.85, duration: 0.12 }, 40.0);
+      tl.set("#ph-in", { opacity: 0 }, 40.15);
+      tl.set("#ph-call", { opacity: 1 }, 40.15);
+      tl.to(rig, { x: -6, y: 18, rotation: 0.5, duration: 6.2, ease: "sine.inOut" }, 40.2);
+      // call timer, a function of time only
+      const timer = document.getElementById("ph-timer");
+      const clock = { s: 0 };
+      tl.fromTo(clock, { s: 0 }, {
+        s: 10, duration: 10, ease: "none",
+        onUpdate: () => { timer.textContent = "00:0" + Math.min(9, Math.floor(clock.s)); },
+      }, 40.15);
+      // shot C: phone drops to his chest as he turns to the hallway (abs 55.0 → 58.8)
+      tl.to(rig, { x: 90, y: 830, scale: 0.86, rotation: -5, duration: 1.6, ease: "power2.inOut" }, 46.4);
+      tl.to("#ph-glow", { opacity: 0.7, duration: 1.8 }, 46.4);
+      buzz(48.1);
+      tl.fromTo("#ph-banner", { opacity: 0, y: -80 }, { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, 48.2);
+      window.__timelines["phone"] = tl;
+    })();
+  </script>
+</template>

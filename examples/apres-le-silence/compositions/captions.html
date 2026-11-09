@@ -1,0 +1,40 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    .cap { position: absolute; left: 0; top: 1190px; width: 1080px; text-align: center; overflow: visible; }
+    .cap-t {
+      display: inline-block; max-width: 900px; padding: 10px 26px 12px; border-radius: 14px;
+      background: rgba(0, 0, 0, 0.55); color: #fbf8f2; font-family: "Inter", sans-serif; font-weight: 700;
+      font-size: 50px; line-height: 1.18; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+    }
+    .cap-it { font-style: italic; color: #e8e2d8; }
+  </style>
+  <div id="root" data-composition-id="captions" data-width="1080" data-height="1920" data-duration="60">
+    <div id="cap-c1" class="clip cap" data-start="0.2" data-duration="2.85"><span id="cap-c1-t" class="cap-t cap-it">La dernière nuit où le monde était normal…</span></div>
+    <div id="cap-c2" class="clip cap" data-start="3.05" data-duration="1.8"><span id="cap-c2-t" class="cap-t cap-it">personne ne savait que c'était la dernière.</span></div>
+    <div id="cap-c3" class="clip cap" data-start="12.0" data-duration="1.8"><span id="cap-c3-t" class="cap-t">C'est quoi encore cette connerie ?</span></div>
+    <div id="cap-c4" class="clip cap" data-start="34.0" data-duration="2.0"><span id="cap-c4-t" class="cap-t">AIDEZ-MOI ! S'IL VOUS PLAÎT !</span></div>
+    <div id="cap-c5" class="clip cap" data-start="49.2" data-duration="1.25"><span id="cap-c5-t" class="cap-t cap-it">Écoute-moi…</span></div>
+    <div id="cap-c6" class="clip cap" data-start="50.5" data-duration="1.2"><span id="cap-c6-t" class="cap-t cap-it">ne fais surtout pas de bruit…</span></div>
+    <div id="cap-c7" class="clip cap" data-start="51.9" data-duration="1.0"><span id="cap-c7-t" class="cap-t">Qui êtes-vous ?</span></div>
+    <div id="cap-c8" class="clip cap" data-start="53.0" data-duration="2.2"><span id="cap-c8-t" class="cap-t cap-it">Je suis dans ton appartement.</span></div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const show = (sel, s, d) => {
+        tl.fromTo(sel, { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "power1.out" }, s);
+        tl.to(sel, { opacity: 0, duration: 0.12, ease: "power1.in" }, s + d - 0.14);
+      };
+      show("#cap-c1-t", 0.2, 2.85);
+      show("#cap-c2-t", 3.05, 1.8);
+      show("#cap-c3-t", 12.0, 1.8);
+      show("#cap-c4-t", 34.0, 2.0);
+      show("#cap-c5-t", 49.2, 1.25);
+      show("#cap-c6-t", 50.5, 1.2);
+      show("#cap-c7-t", 51.9, 1.0);
+      show("#cap-c8-t", 53.0, 2.2);
+      window.__timelines["captions"] = tl;
+    })();
+  </script>
+</template>

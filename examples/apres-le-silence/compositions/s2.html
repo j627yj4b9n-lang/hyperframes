@@ -1,0 +1,43 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: #000; overflow: hidden; }
+    #s2-cv { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+
+  </style>
+  <div id="root" data-composition-id="s2" data-width="1080" data-height="1920" data-duration="10">
+    <canvas id="s2-cv" width="1080" height="1920"></canvas>
+
+  </div>
+  <script>
+    (function () {
+      const N = window.Noir;
+      const ctx = document.getElementById("s2-cv").getContext("2d");
+      const st = { t: 0 };
+      function draw(t) {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.filter = "none";
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, 0, 1080, 1920);
+        if (t < 3.6) {
+          N.drawRoom(ctx, t, { lamp: 1, phone: 1, push: t / 3.6 });
+        } else {
+          ctx.filter = "blur(16px)";
+          ctx.translate(540, 960);
+          ctx.scale(1.6, 1.6);
+          ctx.translate(-470, -1000);
+          N.drawRoom(ctx, t, { lamp: 1, phone: 1 });
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          ctx.filter = "none";
+          ctx.fillStyle = "rgba(0,0,0,0.35)";
+          ctx.fillRect(0, 0, 1080, 1920);
+        }
+      }
+      const tl = gsap.timeline({ paused: true });
+      tl.to(st, { t: 10, duration: 10, ease: "none", onUpdate: () => draw(st.t) }, 0);
+
+      draw(0);
+      window.__timelines["s2"] = tl;
+    })();
+  </script>
+</template>

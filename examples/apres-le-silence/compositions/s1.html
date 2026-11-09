@@ -1,0 +1,43 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: #000; overflow: hidden; }
+    #s1-cv { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #s1-title { position: absolute; left: 0; width: 1080px; top: 330px; text-align: center; color: #e9e4dc; }
+    #s1-title-in { opacity: 1; }
+    #s1-name { font-family: "Oswald", sans-serif; font-weight: 700; font-size: 92px; letter-spacing: 0.22em; padding-left: 0.22em; text-shadow: 0 0 30px rgba(0,0,0,0.9); }
+    #s1-ep { margin-top: 18px; font-family: "Inter", sans-serif; font-size: 32px; letter-spacing: 0.42em; padding-left: 0.42em; color: #c9b9a5; }
+    #s1-rule { width: 120px; height: 3px; background: #9e1b1b; margin: 22px auto 0; }
+    #s1-black { position: absolute; inset: 0; background: #000; }
+  </style>
+  <div id="root" data-composition-id="s1" data-width="1080" data-height="1920" data-duration="5">
+    <canvas id="s1-cv" width="1080" height="1920"></canvas>
+    <div id="s1-title" class="clip" data-start="0" data-duration="3.9">
+      <div id="s1-title-in">
+        <div id="s1-name">APRÈS LE SILENCE</div>
+        <div id="s1-rule"></div>
+        <div id="s1-ep">ÉPISODE 1 · 03:17</div>
+      </div>
+    </div>
+    <div id="s1-black" class="clip" data-start="4.82" data-duration="0.18"></div>
+  </div>
+  <script>
+    (function () {
+      const N = window.Noir;
+      const ctx = document.getElementById("s1-cv").getContext("2d");
+      const st = { t: 0 };
+      function draw(t) {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.filter = "none";
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, 0, 1080, 1920);
+        N.drawCity(ctx, t);
+      }
+      const tl = gsap.timeline({ paused: true });
+      tl.to(st, { t: 5, duration: 5, ease: "none", onUpdate: () => draw(st.t) }, 0);
+      tl.fromTo("#s1-title-in", { opacity: 1, y: 0 }, { opacity: 0, y: -14, duration: 0.8, ease: "power2.in" }, 3.0);
+      draw(0);
+      window.__timelines["s1"] = tl;
+    })();
+  </script>
+</template>

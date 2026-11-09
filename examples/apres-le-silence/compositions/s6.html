@@ -1,0 +1,33 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: #000; overflow: hidden; }
+    #s6-cv { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+    #s6-black { position: absolute; inset: 0; background: #000; }
+    #s6-end { position: absolute; left: 0; width: 1080px; top: 900px; text-align: center; font-family: "Oswald", sans-serif; font-weight: 700; font-size: 44px; letter-spacing: 0.3em; padding-left: 0.3em; color: #8a817a; }
+  </style>
+  <div id="root" data-composition-id="s6" data-width="1080" data-height="1920" data-duration="5">
+    <canvas id="s6-cv" width="1080" height="1920"></canvas>
+    <div id="s6-black" class="clip" data-start="3.8" data-duration="1.2"></div>
+    <div id="s6-end" class="clip" data-start="4.2" data-duration="0.8"><span id="s6-end-in">APRÈS LE SILENCE</span></div>
+  </div>
+  <script>
+    (function () {
+      const N = window.Noir;
+      const ctx = document.getElementById("s6-cv").getContext("2d");
+      const st = { t: 0 };
+      function draw(t) {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.filter = "none";
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, 0, 1080, 1920);
+        N.drawHall(ctx, t, N.smooth(0, 2.4, t), { reveal: 0.85 * N.smooth(1.2, 3.2, t) });
+      }
+      const tl = gsap.timeline({ paused: true });
+      tl.to(st, { t: 5, duration: 5, ease: "none", onUpdate: () => draw(st.t) }, 0);
+      tl.fromTo("#s6-end-in", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power1.out" }, 4.2);
+      draw(0);
+      window.__timelines["s6"] = tl;
+    })();
+  </script>
+</template>

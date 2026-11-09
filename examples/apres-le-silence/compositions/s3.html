@@ -1,0 +1,53 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: #000; overflow: hidden; }
+    #s3-cv { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+
+  </style>
+  <div id="root" data-composition-id="s3" data-width="1080" data-height="1920" data-duration="13">
+    <canvas id="s3-cv" width="1080" height="1920"></canvas>
+
+  </div>
+  <script>
+    (function () {
+      const N = window.Noir;
+      const ctx = document.getElementById("s3-cv").getContext("2d");
+      const st = { t: 0 };
+      function draw(t) {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.filter = "none";
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, 0, 1080, 1920);
+        if (t < 5) {
+          // lights died: only the phone lives (drawn by the phone layer)
+          const fl = t < 0.25 ? (N.hash(Math.floor(t * 60)) > 0.5 ? 0.5 : 0) : 0;
+          if (fl) {
+            ctx.filter = "blur(16px)";
+            ctx.translate(540, 960);
+            ctx.scale(1.6, 1.6);
+            ctx.translate(-470, -1000);
+            N.drawRoom(ctx, t, { lamp: fl, phone: 1 });
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.filter = "none";
+          }
+          N.glow(ctx, 540, 1000, 900, [90, 120, 210], 0.12);
+        } else if (t < 9) {
+          const k = t - 5;
+          N.drawRoom(ctx, t, { lamp: 0, phone: 0.8, look: N.smooth(0.5, 1.3, k), rise: N.smooth(3.0, 4.0, k) * 0.35, push: k / 4 * 0.5 });
+          ctx.fillStyle = "rgba(0,0,6,0.35)";
+          ctx.fillRect(0, 0, 1080, 1920);
+        } else {
+          const k = N.smooth(0, 4, t - 9) * 0.78;
+          N.drawWindowApproach(ctx, t, k);
+          N.glow(ctx, 540, 1900, 700, [90, 120, 210], 0.08);
+        }
+      }
+      const tl = gsap.timeline({ paused: true });
+      tl.to(st, { t: 13, duration: 13, ease: "none", onUpdate: () => draw(st.t) }, 0);
+
+      draw(0);
+      window.__timelines["s3"] = tl;
+    })();
+  </script>
+</template>

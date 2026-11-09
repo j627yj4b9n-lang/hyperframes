@@ -1,0 +1,47 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: #000; overflow: hidden; }
+    #s5-cv { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+
+  </style>
+  <div id="root" data-composition-id="s5" data-width="1080" data-height="1920" data-duration="10">
+    <canvas id="s5-cv" width="1080" height="1920"></canvas>
+
+  </div>
+  <script>
+    (function () {
+      const N = window.Noir;
+      const ctx = document.getElementById("s5-cv").getContext("2d");
+      const st = { t: 0 };
+      function draw(t) {
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.filter = "none";
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, 0, 1080, 1920);
+        if (t < 0.9) {
+          const k = 0.78 * (1 - N.smooth(0, 0.7, t));
+          const sh = (1 - t / 0.9) * 40;
+          ctx.filter = `blur(${(1 - t / 0.9) * 10}px)`;
+          N.drawWindowApproach(ctx, t, k, { walk: 0, shakeX: N.wob(t * 40, 1) * sh, shakeY: N.wob(t * 37, 3) * sh });
+        } else {
+          ctx.filter = "blur(18px)";
+          ctx.translate(540, 960);
+          ctx.scale(1.6, 1.6);
+          ctx.translate(-470, -1000);
+          N.drawRoom(ctx, t, { lamp: 0, phone: 1 });
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          ctx.filter = "none";
+          ctx.fillStyle = "rgba(0,0,6,0.45)";
+          ctx.fillRect(0, 0, 1080, 1920);
+          N.glow(ctx, 540, 1000, 900, [90, 120, 210], 0.1);
+        }
+      }
+      const tl = gsap.timeline({ paused: true });
+      tl.to(st, { t: 10, duration: 10, ease: "none", onUpdate: () => draw(st.t) }, 0);
+
+      draw(0);
+      window.__timelines["s5"] = tl;
+    })();
+  </script>
+</template>
